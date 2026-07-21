@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Wortabolario">
+<meta name="theme-color" content="#1b2340">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" type="image/png" href="icon.png">
+<title>Wortabolario — Vocabolario Tedesco ↔ Italiano</title>
+<meta name="description" content="Vocabolario tedesco ↔ italiano/inglese: verbi, sostantivi, aggettivi, grammatica per il corso B1.">
+<meta property="og:title" content="Wortabolario — Vocabolario Tedesco ↔ Italiano">
+<meta property="og:description" content="Vocabolario tedesco ↔ italiano/inglese: verbi, sostantivi, aggettivi, grammatica per il corso B1.">
+<meta property="og:image" content="https://zima-lab.github.io/wortabolario-V3/icon.png">
+<meta property="og:url" content="https://zima-lab.github.io/wortabolario-V3/">
+<meta property="og:type" content="website">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- Precarico i due tagli sempre visibili (testo e grassetto): partono subito,
+     senza aspettare che il CSS venga analizzato. -->
+<link rel="preload" href="fonts/IstokWeb-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/IstokWeb-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/PoltawskiNowy-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="header-row">
+      <div>
+        <h1>Wortabolario</h1>
+        <p class="sub" id="subTitle">Corso tedesco · vocabolario tedesco ↔ italiano — verbi, sostantivi, aggettivi, grammatica</p>
+      </div>
+      <div class="toggles">
+        <button type="button" id="langToggle" class="lang-toggle" aria-label="Cambia lingua di traduzione / Change translation language">
+          <span class="lang-opt" data-lang="it">IT</span><span class="lang-opt" data-lang="en">EN</span>
+        </button>
+        <button type="button" id="themeToggle" class="theme-toggle" aria-label="Cambia tema chiaro/scuro / Toggle light/dark theme">
+          <span class="lang-opt" data-theme="light">☀</span><span class="lang-opt" data-theme="dark">☾</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="searchbar">
+    <div class="search-input-wrap">
+      <input type="text" id="search" placeholder="Cerca in tedesco o in italiano… (es. 'Wohnung', 'appartamento', 'helfen')"
+        role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestList" aria-haspopup="listbox" autocomplete="off">
+      <button type="button" id="clearBtn" class="clear-btn" aria-label="Cancella ricerca" hidden>×</button>
+      <div id="suggestList" class="suggest-list" role="listbox" hidden></div>
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="filters" id="typeFilters"></div>
+
+  <div id="home" class="home"></div>
+
+  <div id="exercises" class="exercises" style="display:none"></div>
+
+  <div id="results"></div>
+
+  <footer class="note2" id="footerNote">
+    Voci di grammatica e verbi tratte dai PDF della cartella "Corso tedesco B1-1" (Präteritum, verbi riflessivi, Futur, TEKAMOLO,
+    i 4 casi, Relativpronomen), integrate con vocabolario generale di livello B1, con la lista verbi forti di
+    <a href="https://deutschlernerblog.de" target="_blank" rel="noopener">deutschlernerblog.de</a> e verificate su
+    <a href="https://dict.leo.org/tedesco-italiano/" target="_blank" rel="noopener">dict.leo.org</a>,
+    <a href="https://it.langenscheidt.com/tedesco-italiano/" target="_blank" rel="noopener">Langenscheidt</a> e
+    <a href="https://it.pons.com/traduzione" target="_blank" rel="noopener">PONS</a>.
+    Per approfondimenti: <a href="https://www.duden.de/" target="_blank" rel="noopener">Duden</a>.
+  </footer>
+
+</div>
+
+<button type="button" id="backTop" class="back-top" aria-label="Torna su" hidden>↑</button>
+
+<nav class="tabbar" role="tablist" aria-label="Navigazione principale">
+  <button type="button" class="tab active" data-tab="home" role="tab" aria-selected="true"><span class="tab-ic">🏠</span><span class="tab-lb" data-tl="tabHome">Casa</span></button>
+  <button type="button" class="tab" data-tab="cerca" role="tab" aria-selected="false"><span class="tab-ic">🔍</span><span class="tab-lb" data-tl="tabSearch">Cerca</span></button>
+  <button type="button" class="tab" data-tab="esercizi" role="tab" aria-selected="false"><span class="tab-ic">🎯</span><span class="tab-lb" data-tl="tabPractice">Esercizi</span></button>
+  <button type="button" class="tab" data-tab="preferiti" role="tab" aria-selected="false"><span class="tab-ic">★</span><span class="tab-lb" data-tl="tabFavs">Preferiti</span></button>
+</nav>
+
+<div id="flashOverlay" class="conj-overlay" role="dialog" aria-modal="true" aria-labelledby="flashTitle">
+  <div class="conj-sheet flash-sheet">
+    <div class="conj-sheet-handle"></div>
+    <div class="conj-sheet-header">
+      <h2 id="flashTitle">Flashcard</h2>
+      <button type="button" id="flashClose" class="conj-close" aria-label="Chiudi">×</button>
+    </div>
+    <div class="conj-sheet-body flash-body" id="flashBody"></div>
+  </div>
+</div>
+
+<div id="genusOverlay" class="conj-overlay" role="dialog" aria-modal="true" aria-labelledby="genusTitle">
+  <div class="conj-sheet flash-sheet">
+    <div class="conj-sheet-handle"></div>
+    <div class="conj-sheet-header">
+      <h2 id="genusTitle">der, die o das?</h2>
+      <button type="button" id="genusClose" class="conj-close" aria-label="Chiudi">×</button>
+    </div>
+    <div class="conj-sheet-body flash-body" id="genusBody"></div>
+  </div>
+</div>
+
+<div id="cqOverlay" class="conj-overlay" role="dialog" aria-modal="true" aria-labelledby="cqTitle">
+  <div class="conj-sheet flash-sheet">
+    <div class="conj-sheet-handle"></div>
+    <div class="conj-sheet-header">
+      <h2 id="cqTitle">Quiz di coniugazione</h2>
+      <button type="button" id="cqClose" class="conj-close" aria-label="Chiudi">×</button>
+    </div>
+    <div class="conj-sheet-body flash-body" id="cqBody"></div>
+  </div>
+</div>
+
+<div id="conjOverlay" class="conj-overlay" role="dialog" aria-modal="true" aria-labelledby="conjTitle">
+  <div class="conj-sheet">
+    <div class="conj-sheet-handle"></div>
+    <div class="conj-sheet-header">
+      <h2 id="conjTitle">Coniugazione completa</h2>
+      <button type="button" id="conjClose" class="conj-close" aria-label="Chiudi">×</button>
+    </div>
+    <div class="conj-sheet-body" id="conjBody"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+  // Registrazione service worker: rende l'app utilizzabile offline (PWA).
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

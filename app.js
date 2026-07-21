@@ -356,23 +356,23 @@ const UI_STRINGS = {
     countSuffix: " voci",
     emptyPrefix: "Nessuna voce trovata per \"", emptySuffix: "\".",
     conjBtn: "Tutte le coniugazioni", conjTitle: "Coniugazione completa", conjClose: "Chiudi", conjNoImperativ: "I verbi modali non hanno un imperativo naturale in tedesco moderno.",
-    favAria: "Aggiungi ai preferiti", favAriaOn: "Rimuovi dai preferiti", favChip: "★ Preferiti",
+    favAria: "Aggiungi ai preferiti", favAriaOn: "Rimuovi dai preferiti", favChip: "Preferiti",
     learnedTag: "imparata",
     recentTitle: "Riprendi da dove eri",
     progressLabel: (n, tot) => `Hai imparato ${n} ${n===1?"parola":"parole"} su ${tot}`,
     reviewBtn: "Ripassa con le flashcard",
     flashTitle: "Flashcard", flashTap: "Tocca la carta per vedere la traduzione",
-    flashKnow: "La sapevo ✓", flashDont: "Da ripassare ↻",
-    flashEmpty: "Nessuna carta da ripassare in questa selezione. Aggiungi qualche ★ preferito o cambia filtro!",
+    flashKnow: "La sapevo", flashDont: "Da ripassare",
+    flashEmpty: "Nessuna carta da ripassare in questa selezione. Aggiungi qualche preferito o cambia filtro!",
     flashDoneTitle: "Ripasso completato!",
     flashDoneMsg: (ok, ko) => `${ok} ${ok===1?"parola saputa":"parole sapute"} · ${ko} da rivedere`,
     flashRestart: "Ricomincia", flashCloseBtn: "Chiudi",
-    flashSrcFav: "solo ★ preferiti", flashSrcAll: "tutte le voci",
-    dueBtn: (n) => `⏰ Da ripassare oggi (${n})`,
+    flashSrcFav: "solo preferiti", flashSrcAll: "tutte le voci",
+    dueBtn: (n) => `Da ripassare oggi (${n})`,
     dueAllDone: "Nessuna parola in scadenza oggi — ottimo!",
     srsLevel: "livello",
     speakAria: "Ascolta la pronuncia",
-    genusBtn: "🎲 der · die · das",
+    genusBtn: "der · die · das",
     genusTitle: "Quiz: der, die o das?",
     genusPrompt: "Scegli l'articolo giusto",
     genusPlural: "Plurale",
@@ -381,32 +381,32 @@ const UI_STRINGS = {
     genusPerfect: "Perfetto! Genere di ferro.",
     genusGood: "Bene! Le sbagliate finiscono nel ripasso.",
     genusMeh: "Il genere si impara col colore: riprova!",
-    bignamiLink: (p) => `📖 Scheda nel Bignami (pag. ${p})`,
+    bignamiLink: (p) => `Scheda nel Bignami (pag. ${p})`,
     sortOrig: "Ordine originale", sortAZ: "A → Z", sortZA: "Z → A",
     tabHome: "Casa", tabSearch: "Cerca", tabPractice: "Esercizi", tabFavs: "Preferiti",
     streakTitle: "Giorni di studio consecutivi",
-    streakLabel: (n) => `🔥 ${n} ${n===1?"giorno":"giorni"} di fila`,
-    streakStart: "🔥 Studia oggi per iniziare la serie!",
+    streakLabel: (n) => `${n} ${n===1?"giorno":"giorni"} di fila`,
+    streakStart: "Studia oggi per iniziare la serie!",
     exTitle: "Allenati",
     exDue: "Ripasso di oggi",
-    exDueDesc: (n) => n > 0 ? `${n} ${n===1?"parola":"parole"} in scadenza` : "Tutto fatto per oggi ✓",
+    exDueDesc: (n) => n > 0 ? `${n} ${n===1?"parola":"parole"} in scadenza` : "Tutto fatto per oggi",
     exFlash: "Flashcard", exFlashDesc: "Carte DE ↔ IT con ripetizione spaziata",
     exGenus: "der · die · das", exGenusDesc: "Indovina l'articolo giusto",
     exConj: "Coniugazione", exConjDesc: "Scrivi tu la forma verbale richiesta",
     backupTitle: "I tuoi progressi", backupHint: "Esporta un backup di preferiti, parole imparate e ripassi, o importalo su un altro dispositivo.",
-    backupExport: "⬇ Esporta", backupImport: "⬆ Importa",
+    backupExport: "Esporta", backupImport: "Importa",
     importOk: "Progressi importati! L'app ora si ricarica.",
     importErr: "File non valido: scegli un backup esportato da Wortabolario.",
     cqTitle: "Quiz di coniugazione",
     cqPrompt: (tense, person) => `Scrivi il <b>${tense}</b> per <b>${person}</b>`,
     cqPlaceholder: "Scrivi la forma…",
     cqCheck: "Controlla", cqNext: "Avanti →", cqSkip: "Non lo so",
-    cqRight: "Giusto! ✓", cqWrongIs: "La forma giusta è",
+    cqRight: "Giusto!", cqWrongIs: "La forma giusta è",
     cqDoneTitle: "Quiz finito!", cqDoneMsg: (ok, tot) => `${ok} su ${tot} corrette`,
     cqPerfect: "Perfetto! Coniugazioni di ferro.",
     cqGood: "Bene! Le sbagliate finiscono nel ripasso.",
     cqMeh: "Le coniugazioni si domano con la pratica: riprova!",
-    emptyFavs: "Non hai ancora preferiti. Tocca la ★ accanto a una parola per salvarla qui.",
+    emptyFavs: "Non hai ancora preferiti. Tocca la stella accanto a una parola per salvarla qui.",
     footer: "Voci di grammatica e verbi tratte dai PDF della cartella \"Corso tedesco B1-1\" (Präteritum, verbi riflessivi, Futur, TEKAMOLO, i 4 casi, Relativpronomen, Plusquamperfekt, Nebensatz mit nachdem, Infinitiv als Nomen), integrate con vocabolario generale di livello B1, con la lista verbi forti di <a href=\"https://deutschlernerblog.de\" target=\"_blank\" rel=\"noopener\">deutschlernerblog.de</a> e verificate su <a href=\"https://dict.leo.org/tedesco-italiano/\" target=\"_blank\" rel=\"noopener\">dict.leo.org</a>, <a href=\"https://it.langenscheidt.com/tedesco-italiano/\" target=\"_blank\" rel=\"noopener\">Langenscheidt</a> e <a href=\"https://it.pons.com/traduzione\" target=\"_blank\" rel=\"noopener\">PONS</a>. Per approfondimenti: <a href=\"https://www.duden.de/\" target=\"_blank\" rel=\"noopener\">Duden</a>."
   },
   en: {
@@ -418,23 +418,23 @@ const UI_STRINGS = {
     countSuffix: " entries",
     emptyPrefix: "No entry found for \"", emptySuffix: "\".",
     conjBtn: "All conjugations", conjTitle: "Full conjugation", conjClose: "Close", conjNoImperativ: "Modal verbs have no natural imperative in modern German.",
-    favAria: "Add to favourites", favAriaOn: "Remove from favourites", favChip: "★ Favourites",
+    favAria: "Add to favourites", favAriaOn: "Remove from favourites", favChip: "Favourites",
     learnedTag: "learned",
     recentTitle: "Pick up where you left off",
     progressLabel: (n, tot) => `You have learned ${n} ${n===1?"word":"words"} out of ${tot}`,
     reviewBtn: "Review with flashcards",
     flashTitle: "Flashcards", flashTap: "Tap the card to see the translation",
-    flashKnow: "I knew it ✓", flashDont: "Review again ↻",
-    flashEmpty: "No cards to review in this selection. Add some ★ favourites or change the filter!",
+    flashKnow: "I knew it", flashDont: "Review again",
+    flashEmpty: "No cards to review in this selection. Add some favourites or change the filter!",
     flashDoneTitle: "Review complete!",
     flashDoneMsg: (ok, ko) => `${ok} ${ok===1?"word known":"words known"} · ${ko} to review`,
     flashRestart: "Restart", flashCloseBtn: "Close",
-    flashSrcFav: "★ favourites only", flashSrcAll: "all entries",
-    dueBtn: (n) => `⏰ Due today (${n})`,
+    flashSrcFav: "favourites only", flashSrcAll: "all entries",
+    dueBtn: (n) => `Due today (${n})`,
     dueAllDone: "No words due today — great job!",
     srsLevel: "level",
     speakAria: "Hear the pronunciation",
-    genusBtn: "🎲 der · die · das",
+    genusBtn: "der · die · das",
     genusTitle: "Quiz: der, die or das?",
     genusPrompt: "Pick the right article",
     genusPlural: "Plural",
@@ -443,32 +443,32 @@ const UI_STRINGS = {
     genusPerfect: "Perfect! Rock-solid genders.",
     genusGood: "Nice! Missed ones go into your review pile.",
     genusMeh: "Gender sticks with colour — try again!",
-    bignamiLink: (p) => `📖 See the Bignami sheet (p. ${p})`,
+    bignamiLink: (p) => `See the Bignami sheet (p. ${p})`,
     sortOrig: "Original order", sortAZ: "A → Z", sortZA: "Z → A",
     tabHome: "Home", tabSearch: "Search", tabPractice: "Practice", tabFavs: "Favourites",
     streakTitle: "Consecutive study days",
-    streakLabel: (n) => `🔥 ${n} ${n===1?"day":"days"} in a row`,
-    streakStart: "🔥 Study today to start your streak!",
+    streakLabel: (n) => `${n} ${n===1?"day":"days"} in a row`,
+    streakStart: "Study today to start your streak!",
     exTitle: "Practice",
     exDue: "Today's review",
-    exDueDesc: (n) => n > 0 ? `${n} ${n===1?"word":"words"} due` : "All done for today ✓",
+    exDueDesc: (n) => n > 0 ? `${n} ${n===1?"word":"words"} due` : "All done for today",
     exFlash: "Flashcards", exFlashDesc: "DE ↔ EN cards with spaced repetition",
     exGenus: "der · die · das", exGenusDesc: "Guess the right article",
     exConj: "Conjugation", exConjDesc: "Type the requested verb form yourself",
     backupTitle: "Your progress", backupHint: "Export a backup of favourites, learned words and reviews, or import it on another device.",
-    backupExport: "⬇ Export", backupImport: "⬆ Import",
+    backupExport: "Export", backupImport: "Import",
     importOk: "Progress imported! The app will now reload.",
     importErr: "Invalid file: choose a backup exported from Wortabolario.",
     cqTitle: "Conjugation quiz",
     cqPrompt: (tense, person) => `Type the <b>${tense}</b> for <b>${person}</b>`,
     cqPlaceholder: "Type the form…",
     cqCheck: "Check", cqNext: "Next →", cqSkip: "I don't know",
-    cqRight: "Correct! ✓", cqWrongIs: "The right form is",
+    cqRight: "Correct!", cqWrongIs: "The right form is",
     cqDoneTitle: "Quiz finished!", cqDoneMsg: (ok, tot) => `${ok} out of ${tot} correct`,
     cqPerfect: "Perfect! Rock-solid conjugations.",
     cqGood: "Nice! Missed ones go into your review pile.",
     cqMeh: "Conjugations yield to practice — try again!",
-    emptyFavs: "No favourites yet. Tap the ★ next to a word to save it here.",
+    emptyFavs: "No favourites yet. Tap the star next to a word to save it here.",
     footer: "Grammar and verb entries drawn from the PDFs in the \"Corso tedesco B1-1\" folder (Präteritum, reflexive verbs, Futur, TEKAMOLO, the 4 cases, Relativpronomen, Plusquamperfekt, nachdem-clauses, Infinitiv als Nomen), combined with general B1-level vocabulary, with the strong-verb list from <a href=\"https://deutschlernerblog.de\" target=\"_blank\" rel=\"noopener\">deutschlernerblog.de</a> and checked against <a href=\"https://dict.leo.org/tedesco-italiano/\" target=\"_blank\" rel=\"noopener\">dict.leo.org</a>, <a href=\"https://it.langenscheidt.com/tedesco-italiano/\" target=\"_blank\" rel=\"noopener\">Langenscheidt</a> and <a href=\"https://it.pons.com/traduzione\" target=\"_blank\" rel=\"noopener\">PONS</a>. For further reading: <a href=\"https://www.duden.de/\" target=\"_blank\" rel=\"noopener\">Duden</a>."
   }
 };
@@ -634,6 +634,52 @@ function importProgress(file){
   reader.readAsText(file);
 }
 
+/* ---------- ICONE (stile SF Symbols) ----------
+   Disegni a tratto su griglia 24×24, monocromi: ereditano il colore del testo
+   con `currentColor`, quindi funzionano da soli in tema chiaro e scuro.
+   Tratto 1.7 con terminali arrotondati, come le icone di sistema iOS. */
+
+const ICONS = {
+  home:    '<path d="M3.2 10.4 12 3.3l8.8 7.1"/><path d="M5.6 9.5V19a1.6 1.6 0 0 0 1.6 1.6h9.6A1.6 1.6 0 0 0 18.4 19V9.5"/><path d="M9.7 20.6v-5.2a1 1 0 0 1 1-1h2.6a1 1 0 0 1 1 1v5.2"/>',
+  search:  '<circle cx="10.8" cy="10.8" r="6.6"/><path d="M15.6 15.6 20.8 20.8"/>',
+  target:  '<circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="4.3"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>',
+  star:     '<path d="m12 3.9 2.55 5.17 5.7.83-4.13 4.02.98 5.68L12 16.92l-5.1 2.68.98-5.68L3.75 9.9l5.7-.83z"/>',
+  starFill: '<path d="m12 3.9 2.55 5.17 5.7.83-4.13 4.02.98 5.68L12 16.92l-5.1 2.68.98-5.68L3.75 9.9l5.7-.83z" fill="currentColor"/>',
+  clock:   '<circle cx="12" cy="12" r="8.4"/><path d="M12 7.1V12l3.1 1.9"/>',
+  cards:   '<rect x="7.2" y="7.2" width="13.6" height="13.6" rx="3"/><path d="M17 4.2H6.2A2.9 2.9 0 0 0 3.3 7.1v10.6"/>',
+  dice:    '<rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="8.6" cy="8.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none"/><circle cx="15.4" cy="15.4" r="1.15" fill="currentColor" stroke="none"/>',
+  pencil:  '<path d="M4.6 19.4h3.5L19 8.9a2.05 2.05 0 0 0-2.9-2.9L5.5 16.5z"/><path d="m14.7 7.7 2.9 2.9"/>',
+  speaker: '<path d="M4.2 9.4h3.1L11.4 6v12L7.3 14.6H4.2z"/><path d="M14.9 9.7a3.9 3.9 0 0 1 0 4.6"/><path d="M17.5 7.4a7.4 7.4 0 0 1 0 9.2"/>',
+  chevron: '<path d="M9.7 5.6 16 12l-6.3 6.4"/>',
+  arrowUp: '<path d="M12 19.6V5.2"/><path d="M5.9 11.3 12 5.2l6.1 6.1"/>',
+  close:   '<path d="m6.6 6.6 10.8 10.8"/><path d="M17.4 6.6 6.6 17.4"/>',
+  sun:     '<circle cx="12" cy="12" r="4"/><path d="M12 2.9v2.2M12 18.9v2.2M21.1 12h-2.2M5.1 12H2.9M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6M18.4 18.4l-1.6-1.6M7.2 7.2 5.6 5.6"/>',
+  moon:    '<path d="M20.3 14.7A8.6 8.6 0 1 1 9.3 3.7a6.9 6.9 0 0 0 11 11z"/>',
+  export:  '<path d="M12 3.6v10.8"/><path d="M7.6 10 12 14.4 16.4 10"/><path d="M4.6 17.2v1.6a2 2 0 0 0 2 2h10.8a2 2 0 0 0 2-2v-1.6"/>',
+  import:  '<path d="M12 14.4V3.6"/><path d="M7.6 8 12 3.6 16.4 8"/><path d="M4.6 17.2v1.6a2 2 0 0 0 2 2h10.8a2 2 0 0 0 2-2v-1.6"/>',
+  flame:   '<path d="M12 2.9c.5 3-1 4.5-2.4 5.9-1.3 1.3-2.5 2.7-2.5 4.9a5.4 5.4 0 0 0 10.8 0c0-2.2-1-3.6-2-4.7-.2 1-.8 1.7-1.6 1.9.4-3.1-1.2-6.2-2.3-8z"/>',
+  book:    '<path d="M12 7.2v12.3"/><path d="M12 7.2C10.4 5.9 8.4 5.2 6.1 5.2H4v12.3h2.1c2.3 0 4.3.7 5.9 2"/><path d="M12 7.2c1.6-1.3 3.6-2 5.9-2H20v12.3h-2.1c-2.3 0-4.3.7-5.9 2"/>',
+  check:   '<path d="m5.4 12.4 4.4 4.4 8.8-9.6"/>',
+  rotate:  '<path d="M3.8 12a8.2 8.2 0 1 0 2.6-6"/><path d="M3.4 4.4v4.2h4.2"/>',
+  checkSeal: '<circle cx="12" cy="12" r="8.4"/><path d="m8.2 12.2 2.7 2.7 5-5.4"/>',
+};
+
+/** Restituisce l'SVG di un'icona. `cls` aggiunge classi CSS per la dimensione. */
+function ic(name, cls){
+  const p = ICONS[name];
+  if(!p) return "";
+  return `<svg class="ic ${cls || ""}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${p}</svg>`;
+}
+
+/** Riempie gli elementi statici marcati con data-icon (tab bar, chiusure, temi). */
+function paintStaticIcons(){
+  document.querySelectorAll("[data-icon]").forEach(el => {
+    if(el.dataset.iconDone) return;
+    el.innerHTML = ic(el.dataset.icon);
+    el.dataset.iconDone = "1";
+  });
+}
+
 /* ---------- AUDIO (pronuncia tedesca via speechSynthesis) ---------- */
 
 const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;
@@ -649,7 +695,7 @@ function speak(text){
 }
 function speakBtnHtml(text, cls){
   if(!canSpeak) return "";
-  return `<button type="button" class="speak-btn ${cls || ""}" data-say="${text.replace(/"/g, "&quot;")}" aria-label="ascolta">🔊</button>`;
+  return `<button type="button" class="speak-btn ${cls || ""}" data-say="${text.replace(/"/g, "&quot;")}" aria-label="ascolta">${ic("speaker")}</button>`;
 }
 function bindSpeakBtns(root){
   (root || document).querySelectorAll(".speak-btn").forEach(b => {
@@ -726,7 +772,7 @@ function renderFilters(){
   const chips = types.map(t =>
     `<button class="chip ${activeType===t?'active':''}" data-t="${t}" aria-pressed="${activeType===t}">${TL(t)}<span class="chip-n">${typeCount(t)}</span></button>`
   );
-  chips.push(`<button class="chip chip-fav ${activeType==='preferiti'?'active':''}" data-t="preferiti" aria-pressed="${activeType==='preferiti'}">${s.favChip}<span class="chip-n">${favIds.size}</span></button>`);
+  chips.push(`<button class="chip chip-fav ${activeType==='preferiti'?'active':''}" data-t="preferiti" aria-pressed="${activeType==='preferiti'}">${ic("star","ic-sm")}${s.favChip}<span class="chip-n">${favIds.size}</span></button>`);
   host.innerHTML = chips.join("") + `
     <select id="sortSel" aria-label="Ordinamento">
       <option value="orig" ${sortMode==='orig'?'selected':''}>${s.sortOrig}</option>
@@ -804,10 +850,10 @@ function renderEntry(e){
   const noteHtml = t.note ? `<div class="note">${t.note}</div>` : "";
   const bigPage = e.type === "grammatica" ? BIGNAMI_PAGES[e.de] : null;
   const bignamiHtml = bigPage
-    ? `<a class="bignami-link" href="${BIGNAMI_PDF}#page=${bigPage}" target="_blank" rel="noopener">${s.bignamiLink(bigPage)}</a>`
+    ? `<a class="bignami-link" href="${BIGNAMI_PDF}#page=${bigPage}" target="_blank" rel="noopener">${ic("book","ic-sm")}${s.bignamiLink(bigPage)}</a>`
     : "";
   const conjBtnHtml = e.type === "verbo"
-    ? `<button type="button" class="conj-btn" data-vid="${e.id}"><span class="conj-btn-ic">⚙</span>${UI_STRINGS[lang].conjBtn}</button>`
+    ? `<button type="button" class="conj-btn" data-vid="${e.id}">${ic("pencil","ic-sm")}${UI_STRINGS[lang].conjBtn}</button>`
     : "";
   const g = genusChip(e);
   const deHtml = g
@@ -822,11 +868,11 @@ function renderEntry(e){
           <span class="badge ${e.type}">${TL(e.type)}</span>
           ${deHtml}
           <span class="it">${t.it}</span>
-          ${isLearned ? `<span class="learned-tag" title="${s.learnedTag}">✓</span>` : ""}
+          ${isLearned ? `<span class="learned-tag" title="${s.learnedTag}">${ic("check")}</span>` : ""}
         </div>
         ${e.type !== "grammatica" ? speakBtnHtml(e.de) : (canSpeak ? '<span class="icon-spacer" aria-hidden="true"></span>' : "")}
-        <button type="button" class="fav-btn ${isFav?'on':''}" data-fid="${e.id}" aria-label="${isFav ? s.favAriaOn : s.favAria}" aria-pressed="${isFav}">${isFav ? "★" : "☆"}</button>
-        <span class="chev">▶</span>
+        <button type="button" class="fav-btn ${isFav?'on':''}" data-fid="${e.id}" aria-label="${isFav ? s.favAriaOn : s.favAria}" aria-pressed="${isFav}">${isFav ? ic("starFill") : ic("star")}</button>
+        <span class="chev">${ic('chevron')}</span>
       </div>
       <div class="entry-body">
         ${fieldsHtml}
@@ -942,8 +988,8 @@ function renderResults(){
   const host = document.getElementById("results");
   if(list.length === 0){
     host.innerHTML = type === "preferiti" && !q
-      ? `<div class="empty"><div class="empty-ic">☆</div>${s.emptyFavs}</div>`
-      : `<div class="empty"><div class="empty-ic">🔍</div>${s.emptyPrefix}${q}${s.emptySuffix}</div>`;
+      ? `<div class="empty"><div class="empty-ic">${ic("star")}</div>${s.emptyFavs}</div>`
+      : `<div class="empty"><div class="empty-ic">${ic("search")}</div>${s.emptyPrefix}${q}${s.emptySuffix}</div>`;
     return;
   }
   host.innerHTML = list.map(renderEntry).join("");
@@ -962,7 +1008,7 @@ function renderResults(){
       toggleFav(b.dataset.fid);
       const on = favIds.has(b.dataset.fid);
       b.classList.toggle("on", on);
-      b.textContent = on ? "★" : "☆";
+      b.innerHTML = on ? ic("starFill") : ic("star");   // innerHTML: il contenuto è un SVG
       b.setAttribute("aria-pressed", on);
       b.setAttribute("aria-label", on ? s.favAriaOn : s.favAria);
       renderFilters();
@@ -1073,15 +1119,15 @@ function renderHome(){
     <div class="progress-card">
       <div class="progress-top">
         <span class="progress-label">${s.progressLabel(nLearned, nTot)}</span>
-        <span class="streak-chip" title="${s.streakTitle}">${streakCount() > 0 ? s.streakLabel(streakCount()) : s.streakStart}</span>
+        <span class="streak-chip" title="${s.streakTitle}">${ic("flame","ic-sm")}${streakCount() > 0 ? s.streakLabel(streakCount()) : s.streakStart}</span>
       </div>
       <div class="progress-track" role="progressbar" aria-valuenow="${nLearned}" aria-valuemin="0" aria-valuemax="${nTot}">
         <div class="progress-fill" style="width:${Math.max(pct, nLearned > 0 ? 2 : 0)}%"></div>
       </div>
       <div class="progress-actions">
         ${nDue > 0
-          ? `<button type="button" class="review-btn due-btn" id="dueBtn">${s.dueBtn(nDue)}</button>`
-          : `<span class="due-done">✓ ${s.dueAllDone}</span>`}
+          ? `<button type="button" class="review-btn due-btn" id="dueBtn">${ic("clock","ic-sm")}${s.dueBtn(nDue)}</button>`
+          : `<span class="due-done">${ic("check","ic-sm")}${s.dueAllDone}</span>`}
       </div>
     </div>`;
 
@@ -1113,8 +1159,8 @@ function renderHome(){
     <div class="backup-card">
       <div class="backup-info"><b>${s.backupTitle}</b><span>${s.backupHint}</span></div>
       <div class="backup-btns">
-        <button type="button" id="expBtn">${s.backupExport}</button>
-        <button type="button" id="impBtn">${s.backupImport}</button>
+        <button type="button" id="expBtn">${ic("export","ic-sm")}${s.backupExport}</button>
+        <button type="button" id="impBtn">${ic("import","ic-sm")}${s.backupImport}</button>
       </div>
     </div>
     <input type="file" id="impFile" accept=".json,application/json" hidden>
@@ -1153,17 +1199,17 @@ function renderExercises(){
   const host = document.getElementById("exercises");
   const nDue = dueEntries().length;
   const cards = [
-    { id: "exDue",   ic: "⏰", name: s.exDue,   desc: s.exDueDesc(nDue), cls: nDue > 0 ? "ex-hot" : "" },
-    { id: "exFlash", ic: "🎴", name: s.exFlash, desc: s.exFlashDesc },
-    { id: "exGenus", ic: "🎲", name: s.exGenus, desc: s.exGenusDesc },
-    { id: "exConj",  ic: "⚙", name: s.exConj,  desc: s.exConjDesc }
+    { id: "exDue",   ic: "clock",  name: s.exDue,   desc: s.exDueDesc(nDue), cls: nDue > 0 ? "ex-hot" : "" },
+    { id: "exFlash", ic: "cards",  name: s.exFlash, desc: s.exFlashDesc },
+    { id: "exGenus", ic: "dice",   name: s.exGenus, desc: s.exGenusDesc },
+    { id: "exConj",  ic: "pencil", name: s.exConj,  desc: s.exConjDesc }
   ];
   host.innerHTML = `
     <p class="eyebrow">${s.exTitle}</p>
     <div class="ex-grid">
       ${cards.map(c => `
         <button type="button" class="ex-card ${c.cls || ""}" id="${c.id}">
-          <span class="ex-ic">${c.ic}</span>
+          <span class="ex-ic">${ic(c.ic)}</span>
           <span class="ex-name">${c.name}</span>
           <span class="ex-desc">${c.desc}</span>
         </button>`).join("")}
@@ -1407,13 +1453,13 @@ function renderFlash(){
     (flashDeck.length ? ` · ${Math.min(flashIdx + 1, flashDeck.length)} / ${flashDeck.length}` : "");
 
   if(flashDeck.length === 0){
-    body.innerHTML = `<div class="empty"><div class="empty-ic">🎴</div>${s.flashEmpty}</div>`;
+    body.innerHTML = `<div class="empty"><div class="empty-ic">${ic("cards")}</div>${s.flashEmpty}</div>`;
     return;
   }
   if(flashIdx >= flashDeck.length){
     body.innerHTML = `
       <div class="flash-done">
-        <div class="flash-done-ic">🎉</div>
+        <div class="flash-done-ic">${ic("checkSeal")}</div>
         <h3>${s.flashDoneTitle}</h3>
         <p>${s.flashDoneMsg(flashOk, flashKo)}</p>
         <div class="flash-actions">
@@ -1465,8 +1511,8 @@ function renderFlash(){
       </div>
     </div>
     <div class="flash-actions ${flashFlipped ? '' : 'hidden'}">
-      <button type="button" class="flash-btn flash-no" id="flashNo">${s.flashDont}</button>
-      <button type="button" class="flash-btn flash-yes" id="flashYes">${s.flashKnow}</button>
+      <button type="button" class="flash-btn flash-no" id="flashNo">${ic("rotate","ic-sm")}${s.flashDont}</button>
+      <button type="button" class="flash-btn flash-yes" id="flashYes">${ic("check","ic-sm")}${s.flashKnow}</button>
     </div>`;
 
   document.querySelectorAll("#flashDir .flash-dir-opt").forEach(b => {
@@ -1541,7 +1587,7 @@ function renderGenus(){
     const msg = genusOk === genusDeck.length ? s.genusPerfect : (genusOk >= genusDeck.length * 0.7 ? s.genusGood : s.genusMeh);
     body.innerHTML = `
       <div class="flash-done">
-        <div class="flash-done-ic">${genusOk === genusDeck.length ? "🏆" : "🎲"}</div>
+        <div class="flash-done-ic">${ic(genusOk === genusDeck.length ? "checkSeal" : "dice")}</div>
         <h3>${s.genusDoneTitle}</h3>
         <p>${s.genusDoneMsg(genusOk, genusDeck.length)}<br>${msg}</p>
         <div class="flash-actions">
@@ -1653,7 +1699,7 @@ function renderConjQuiz(){
     const msg = cqOk === cqDeck.length ? s.cqPerfect : (cqOk >= cqDeck.length * 0.7 ? s.cqGood : s.cqMeh);
     body.innerHTML = `
       <div class="flash-done">
-        <div class="flash-done-ic">${cqOk === cqDeck.length ? "🏆" : "⚙"}</div>
+        <div class="flash-done-ic">${ic(cqOk === cqDeck.length ? "checkSeal" : "pencil")}</div>
         <h3>${s.cqDoneTitle}</h3>
         <p>${s.cqDoneMsg(cqOk, cqDeck.length)}<br>${msg}</p>
         <div class="flash-actions">
@@ -1694,7 +1740,7 @@ function renderConjQuiz(){
     bumpStreak();
     if(right){
       cqOk++;
-      fb.innerHTML = `<span class="cq-right">${s.cqRight}</span> <b>${q.person} ${q.answer}</b>`;
+      fb.innerHTML = `<span class="cq-right">${ic("check","ic-sm")}${s.cqRight}</span> <b>${q.person} ${q.answer}</b>`;
     } else {
       srsAnswer(q.e.id, false);   // la forma sbagliata finisce nel ripasso di oggi
       fb.innerHTML = `<span class="cq-wrong">${s.cqWrongIs}</span> <b>${q.person} ${q.answer}</b>`;
@@ -1743,6 +1789,7 @@ document.querySelectorAll(".tabbar .tab").forEach(b => {
 
 /* ---------- AVVIO ---------- */
 
+paintStaticIcons();
 applyStaticStrings();
 applyTheme();
 renderFilters();

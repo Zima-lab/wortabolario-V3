@@ -3,7 +3,7 @@
    dalla rete in background. Alla pubblicazione di una nuova versione,
    incrementare CACHE_VERSION per ripartire da una cache pulita. */
 
-const CACHE_VERSION = "wortabolario-v7";
+const CACHE_VERSION = "wortabolario-v8";
 const PRECACHE = [
   ".",
   "index.html",

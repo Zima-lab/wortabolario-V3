@@ -39,7 +39,7 @@
           <span class="lang-opt" data-lang="it">IT</span><span class="lang-opt" data-lang="en">EN</span>
         </button>
         <button type="button" id="themeToggle" class="theme-toggle" aria-label="Cambia tema chiaro/scuro / Toggle light/dark theme">
-          <span class="lang-opt" data-theme="light">☀</span><span class="lang-opt" data-theme="dark">☾</span>
+          <span class="lang-opt" data-theme="light" data-icon="sun"></span><span class="lang-opt" data-theme="dark" data-icon="moon"></span>
         </button>
       </div>
     </div>
@@ -49,7 +49,7 @@
     <div class="search-input-wrap">
       <input type="text" id="search" placeholder="Cerca in tedesco o in italiano… (es. 'Wohnung', 'appartamento', 'helfen')"
         role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestList" aria-haspopup="listbox" autocomplete="off">
-      <button type="button" id="clearBtn" class="clear-btn" aria-label="Cancella ricerca" hidden>×</button>
+      <button type="button" id="clearBtn" class="clear-btn" aria-label="Cancella ricerca" hidden data-icon="close"></button>
       <div id="suggestList" class="suggest-list" role="listbox" hidden></div>
     </div>
     <span class="count" id="count"></span>
@@ -75,13 +75,13 @@
 
 </div>
 
-<button type="button" id="backTop" class="back-top" aria-label="Torna su" hidden>↑</button>
+<button type="button" id="backTop" class="back-top" aria-label="Torna su" hidden data-icon="arrowUp"></button>
 
 <nav class="tabbar" role="tablist" aria-label="Navigazione principale">
-  <button type="button" class="tab active" data-tab="home" role="tab" aria-selected="true"><span class="tab-ic">🏠</span><span class="tab-lb" data-tl="tabHome">Casa</span></button>
-  <button type="button" class="tab" data-tab="cerca" role="tab" aria-selected="false"><span class="tab-ic">🔍</span><span class="tab-lb" data-tl="tabSearch">Cerca</span></button>
-  <button type="button" class="tab" data-tab="esercizi" role="tab" aria-selected="false"><span class="tab-ic">🎯</span><span class="tab-lb" data-tl="tabPractice">Esercizi</span></button>
-  <button type="button" class="tab" data-tab="preferiti" role="tab" aria-selected="false"><span class="tab-ic">★</span><span class="tab-lb" data-tl="tabFavs">Preferiti</span></button>
+  <button type="button" class="tab active" data-tab="home" role="tab" aria-selected="true"><span class="tab-ic" data-icon="home"></span><span class="tab-lb" data-tl="tabHome">Casa</span></button>
+  <button type="button" class="tab" data-tab="cerca" role="tab" aria-selected="false"><span class="tab-ic" data-icon="search"></span><span class="tab-lb" data-tl="tabSearch">Cerca</span></button>
+  <button type="button" class="tab" data-tab="esercizi" role="tab" aria-selected="false"><span class="tab-ic" data-icon="target"></span><span class="tab-lb" data-tl="tabPractice">Esercizi</span></button>
+  <button type="button" class="tab" data-tab="preferiti" role="tab" aria-selected="false"><span class="tab-ic" data-icon="star"></span><span class="tab-lb" data-tl="tabFavs">Preferiti</span></button>
 </nav>
 
 <div id="flashOverlay" class="conj-overlay" role="dialog" aria-modal="true" aria-labelledby="flashTitle">
@@ -89,7 +89,7 @@
     <div class="conj-sheet-handle"></div>
     <div class="conj-sheet-header">
       <h2 id="flashTitle">Flashcard</h2>
-      <button type="button" id="flashClose" class="conj-close" aria-label="Chiudi">×</button>
+      <button type="button" id="flashClose" class="conj-close" aria-label="Chiudi" data-icon="close"></button>
     </div>
     <div class="conj-sheet-body flash-body" id="flashBody"></div>
   </div>
@@ -100,7 +100,7 @@
     <div class="conj-sheet-handle"></div>
     <div class="conj-sheet-header">
       <h2 id="genusTitle">der, die o das?</h2>
-      <button type="button" id="genusClose" class="conj-close" aria-label="Chiudi">×</button>
+      <button type="button" id="genusClose" class="conj-close" aria-label="Chiudi" data-icon="close"></button>
     </div>
     <div class="conj-sheet-body flash-body" id="genusBody"></div>
   </div>
@@ -111,7 +111,7 @@
     <div class="conj-sheet-handle"></div>
     <div class="conj-sheet-header">
       <h2 id="cqTitle">Quiz di coniugazione</h2>
-      <button type="button" id="cqClose" class="conj-close" aria-label="Chiudi">×</button>
+      <button type="button" id="cqClose" class="conj-close" aria-label="Chiudi" data-icon="close"></button>
     </div>
     <div class="conj-sheet-body flash-body" id="cqBody"></div>
   </div>
@@ -122,7 +122,7 @@
     <div class="conj-sheet-handle"></div>
     <div class="conj-sheet-header">
       <h2 id="conjTitle">Coniugazione completa</h2>
-      <button type="button" id="conjClose" class="conj-close" aria-label="Chiudi">×</button>
+      <button type="button" id="conjClose" class="conj-close" aria-label="Chiudi" data-icon="close"></button>
     </div>
     <div class="conj-sheet-body" id="conjBody"></div>
   </div>

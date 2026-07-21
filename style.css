@@ -682,3 +682,62 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
 .cq-feedback.show { visibility: visible; }
 .cq-feedback.ok .cq-right { color: var(--teal); font-weight: 700; }
 .cq-feedback.ko .cq-wrong { color: var(--amber); font-weight: 700; }
+
+/* ============ ICONE (stile SF Symbols: tratto, monocrome, currentColor) ============ */
+
+/* Base: nessun riempimento, solo tratto che eredita il colore del testo.
+   `vertical-align:-.18em` allinea l'icona alla linea di base del testo accanto. */
+.ic {
+  width: 1.25em; height: 1.25em;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -.18em;
+}
+.ic-sm { width: 1.05em; height: 1.05em; stroke-width: 1.8; }
+
+/* --- tab bar --- */
+.tabbar .tab .tab-ic { display: block; height: 24px; }
+.tabbar .tab .tab-ic .ic { width: 24px; height: 24px; vertical-align: top; }
+/* iOS ispessisce l'icona della scheda attiva invece di cambiarne la forma */
+.tabbar .tab.active .tab-ic .ic { stroke-width: 2.1; }
+
+/* --- pulsanti icona --- */
+.speak-btn .ic { width: 17px; height: 17px; }
+.fav-btn .ic   { width: 18px; height: 18px; }
+.fav-btn.on .ic { stroke: var(--amber); }
+.chev .ic      { width: 14px; height: 14px; stroke-width: 2; }
+.clear-btn { display: inline-flex; align-items: center; }
+.clear-btn .ic { width: 17px; height: 17px; stroke-width: 2; }
+.conj-close { display: inline-flex; align-items: center; justify-content: center; }
+.conj-close .ic { width: 18px; height: 18px; stroke-width: 2; }
+.back-top { display: inline-flex; align-items: center; justify-content: center; }
+.back-top .ic { width: 20px; height: 20px; stroke-width: 2; }
+.theme-toggle .lang-opt { display: inline-flex; align-items: center; justify-content: center; }
+.theme-toggle .lang-opt .ic { width: 15px; height: 15px; vertical-align: 0; }
+
+/* --- icone dentro etichette e pulsanti di testo --- */
+.chip .ic, .review-btn .ic, .due-done .ic, .streak-chip .ic,
+.backup-btns button .ic, .bignami-link .ic, .conj-btn .ic {
+  margin-right: 5px;
+}
+.streak-chip, .due-done, .bignami-link { display: inline-flex; align-items: center; }
+.chip, .review-btn, .backup-btns button, .conj-btn { display: inline-flex; align-items: center; }
+.learned-tag { display: inline-flex; align-items: center; }
+.learned-tag .ic { width: 13px; height: 13px; stroke-width: 2.4; }
+
+/* --- illustrazioni (stati vuoti, schermate di fine quiz) --- */
+.empty-ic, .flash-done-ic { line-height: 0; }
+.empty-ic .ic      { width: 40px; height: 40px; stroke-width: 1.4; }
+.flash-done-ic .ic { width: 52px; height: 52px; stroke-width: 1.4; }
+
+/* --- card degli esercizi --- */
+.ex-card .ex-ic { line-height: 0; color: var(--navy); }
+.ex-card .ex-ic .ic { width: 26px; height: 26px; vertical-align: top; }
+.ex-card.ex-hot .ex-ic { color: var(--amber); }
+.flash-btn { display: inline-flex; align-items: center; justify-content: center; }
+.flash-btn .ic { margin-right: 6px; }
+.cq-feedback .cq-right .ic, .cq-feedback .cq-wrong .ic { margin-right: 4px; }

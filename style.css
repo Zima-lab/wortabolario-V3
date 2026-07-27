@@ -573,6 +573,7 @@
   .genus-answer .genus { font-size: 13px; }
   .genus-pl { color: var(--muted); font-size: 13px; }
   .genus-btns { display: flex; gap: 10px; flex-shrink: 0; }
+  .genus-next { margin: 14px auto 0; display: block; }
   .genus-opt {
     flex: 1; border-radius: 12px; padding: 16px 8px; font-size: 18px; font-weight: 700;
     cursor: pointer; min-height: 54px; box-shadow: var(--e1); border: 2px solid transparent;

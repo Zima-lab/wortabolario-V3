@@ -709,6 +709,7 @@ function bindSpeakBtns(root){
 
 const BIGNAMI_PDF = "Grammatica_Tedesca_B1_Bignami.pdf";
 const BIGNAMI_PAGES = {
+  /* Sezione A · I casi e i pronomi (pp. 2-15) */
   "Interrogativpronomen": 2,
   "Der/die/das — Artikel nach Kasus": 3,
   "Personalpronomen nei casi": 3,
@@ -722,31 +723,46 @@ const BIGNAMI_PAGES = {
   "nicht brauchen zu": 9,
   "Indefinitpronomen": 10,
   "Infinitiv als Nomen": 11,
-  "Auf, über, als, mit, bei, zu": 12,
-  "Pronominaladverb: wo(r)+ / da(r)+": 13,
-  "Verben mit Präpositionen": 14,
-  "Präposition + dass-Satz": 15,
-  "sonst": 16,
-  "Nebensatz mit bevor": 17,
-  "um...zu / damit": 18,
-  "nicht nur... sondern auch": 18,
-  "Konjunktionaladverbien vs Subjunktionen": 19,
-  "Connettori doppi": 19,
-  "als / wenn / wann": 21,
-  "seit/seitdem und bis": 21,
-  "Verben mit doppelter Bedeutung": 22,
-  "Wenn das Komma die Bedeutung ändert": 23,
-  "Nebensatz mit während": 24,
-  "Nebensatz mit nachdem": 25,
-  "Präteritum: verbi forti, misti, irregolari": 26,
-  "Futur I — werden + Infinitiv": 27,
-  "Futur II": 27,
-  "Konjunktiv II": 28,
-  "Das Passiv": 29,
-  "Plusquamperfekt": 30,
-  "Tekamolo": 31,
-  "Komparativ & Superlativ": 32,
-  "Adjektivdeklination + Komparativ/Superlativ": 33
+  "Adjektivendungen im Genitiv": 12,
+  "Adjektive ohne Artikel — Nullartikel": 13,
+  "Partizip I & II als Adjektiv": 14,
+  "n-Deklination": 15,
+  /* Sezione B · Preposizioni e verbi (pp. 16-21) */
+  "Auf, über, als, mit, bei, zu": 16,
+  "Pronominaladverb: wo(r)+ / da(r)+": 17,
+  "Verben mit Präpositionen": 18,
+  "Präposition + dass-Satz": 19,
+  "sonst": 20,
+  "Präpositionen mit Genitiv": 21,
+  /* Sezione C · Congiunzioni e Nebensätze (pp. 22-32) */
+  "Nebensatz mit bevor": 22,
+  "um...zu / damit": 23,
+  "nicht nur... sondern auch": 23,
+  "Konjunktionaladverbien vs Subjunktionen": 24,
+  "Connettori doppi": 24,
+  "als / wenn / wann": 26,
+  "seit/seitdem und bis": 26,
+  "Verben mit doppelter Bedeutung": 27,
+  "Wenn das Komma die Bedeutung ändert": 28,
+  "Nebensatz mit während": 29,
+  "Nebensatz mit nachdem": 30,
+  "entweder … oder": 31,
+  "Relativsätze: Präposition, wo, was": 32,
+  /* Sezione D · Tempi verbali (pp. 33-38) */
+  "Präteritum: verbi forti, misti, irregolari": 33,
+  "Futur I — werden + Infinitiv": 34,
+  "Futur II": 34,
+  "Konjunktiv II": 35,
+  "Das Passiv": 36,
+  "Plusquamperfekt": 37,
+  "Passiv mit Modalverben": 38,
+  /* Sezione E · Struttura della frase (pp. 39-41) */
+  "Tekamolo": 39,
+  "Komparativ & Superlativ": 40,
+  "Adjektivdeklination + Komparativ/Superlativ": 41,
+  /* Sezione F · Luogo e direzione (pp. 42-43) */
+  "Wohin? / Wo? — i nomi geografici": 42,
+  "an · in · auf · zu/bei — dove vai / dove sei": 43
 };
 
 /* Articolo colorato per genere (der/die/das) — aiuta a memorizzare il genere */
@@ -1635,7 +1651,16 @@ function renderGenus(){
         (plural ? `<span class="genus-pl"> · ${s.genusPlural}: ${plural}</span>` : "");
       ans.classList.add("show");
       if(canSpeak) speak(e.de);
-      setTimeout(() => { genusIdx++; genusLock = false; renderGenus(); }, right ? 1000 : 1900);
+      /* La soluzione resta visibile finché non si preme "Avanti",
+         come nel quiz di coniugazione: nessun avanzamento automatico. */
+      const goNext = () => { genusIdx++; genusLock = false; renderGenus(); };
+      const btns = document.getElementById("genusBtns");
+      const nextBtn = document.createElement("button");
+      nextBtn.type = "button";
+      nextBtn.className = "conj-btn genus-next";
+      nextBtn.textContent = s.cqNext;
+      nextBtn.addEventListener("click", goNext);
+      btns.insertAdjacentElement("afterend", nextBtn);
     });
   });
 }

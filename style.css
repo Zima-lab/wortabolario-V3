@@ -607,7 +607,11 @@
   .genus-answer .genus { font-size: var(--fs-sm); }
   .genus-pl { color: var(--muted); font-size: var(--fs-sm); }
   .genus-btns { display: flex; gap: var(--sp-25); flex-shrink: 0; }
-  .genus-next { margin: 14px auto 0; display: block; }
+  /* Riga di navigazione del quiz: Indietro (rivedi la domanda prima) + Avanti */
+  .genus-nav { display: flex; gap: var(--sp-25); margin-top: var(--sp-35); }
+  .genus-nav:empty { display: none; }
+  .genus-nav .genus-next { flex: 1; margin: 0; justify-content: center; }
+  .genus-nav .genus-back { flex: 0 0 auto; }
   .genus-opt {
     flex: 1; border-radius: 12px; padding: 16px 8px; font-size: var(--fs-xl); font-weight: 700;
     cursor: pointer; min-height: 54px; box-shadow: var(--e1); border: 2px solid transparent;

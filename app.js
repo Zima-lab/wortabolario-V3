@@ -401,7 +401,7 @@ const UI_STRINGS = {
     cqTitle: "Quiz di coniugazione",
     cqPrompt: (tense, person) => `Scrivi il <b>${tense}</b> per <b>${person}</b>`,
     cqPlaceholder: "Scrivi la forma…",
-    cqCheck: "Controlla", cqNext: "Avanti →", cqSkip: "Non lo so",
+    cqCheck: "Controlla", cqNext: "Avanti →", cqSkip: "Non lo so", quizBack: "← Indietro",
     cqRight: "Giusto!", cqWrongIs: "La forma giusta è",
     cqDoneTitle: "Quiz finito!", cqDoneMsg: (ok, tot) => `${ok} su ${tot} corrette`,
     cqPerfect: "Perfetto! Coniugazioni di ferro.",
@@ -464,7 +464,7 @@ const UI_STRINGS = {
     cqTitle: "Conjugation quiz",
     cqPrompt: (tense, person) => `Type the <b>${tense}</b> for <b>${person}</b>`,
     cqPlaceholder: "Type the form…",
-    cqCheck: "Check", cqNext: "Next →", cqSkip: "I don't know",
+    cqCheck: "Check", cqNext: "Next →", cqSkip: "I don't know", quizBack: "← Back",
     cqRight: "Correct!", cqWrongIs: "The right form is",
     cqDoneTitle: "Quiz finished!", cqDoneMsg: (ok, tot) => `${ok} out of ${tot} correct`,
     cqPerfect: "Perfect! Rock-solid conjugations.",
@@ -1623,7 +1623,7 @@ document.addEventListener("keydown", (ev) => {
 
 /* ---------- QUIZ DER / DIE / DAS ---------- */
 
-let genusDeck = [], genusIdx = 0, genusOk = 0, genusLock = false;
+let genusDeck = [], genusIdx = 0, genusOk = 0, genusLock = false, genusAnswers = [];
 
 function openGenusQuiz(){
   const nouns = ENTRIES.filter(e => genusChip(e));
@@ -1632,7 +1632,7 @@ function openGenusQuiz(){
     [nouns[i], nouns[j]] = [nouns[j], nouns[i]];
   }
   genusDeck = nouns.slice(0, 15);
-  genusIdx = 0; genusOk = 0; genusLock = false;
+  genusIdx = 0; genusOk = 0; genusLock = false; genusAnswers = [];
   document.getElementById("genusOverlay").classList.add("open");
   document.body.classList.add("conj-lock");
   renderGenus();
@@ -1670,6 +1670,7 @@ function renderGenus(){
   const g = genusChip(e);
   const t = L(e);
   const plural = (e.fields.find(f => f[0] === "Plurale") || [])[1];
+  const chosen = genusAnswers[genusIdx];   // definito = domanda già risposta (revisione)
 
   body.innerHTML = `
     <div class="flash-progress"><div class="flash-progress-fill" style="width:${(genusIdx / genusDeck.length) * 100}%"></div></div>
@@ -1682,37 +1683,46 @@ function renderGenus(){
       <button type="button" class="genus-opt genus-opt-der" data-a="der">der</button>
       <button type="button" class="genus-opt genus-opt-die" data-a="die">die</button>
       <button type="button" class="genus-opt genus-opt-das" data-a="das">das</button>
+    </div>
+    <div class="genus-nav" id="genusNav">
+      ${genusIdx > 0 ? `<button type="button" class="flash-secondary genus-back">${s.quizBack}</button>` : ""}
     </div>`;
 
-  body.querySelectorAll(".genus-opt").forEach(b => {
-    b.addEventListener("click", () => {
-      if(genusLock) return;
-      genusLock = true;
-      const right = b.dataset.a === g.art;
-      if(right){ genusOk++; bumpStreak(); }
-      else srsAnswer(e.id, false);   // genere sbagliato → la parola finisce nel ripasso
-      body.querySelectorAll(".genus-opt").forEach(o => {
-        if(o.dataset.a === g.art) o.classList.add("right");
-        else if(o === b) o.classList.add("wrong");
-        o.disabled = true;
-      });
-      const ans = document.getElementById("genusAnswer");
-      ans.innerHTML = `<span class="genus genus-${g.art}">${g.art}</span> <b>${g.rest}</b> — ${t.it}` +
-        (plural ? `<span class="genus-pl"> · ${s.genusPlural}: ${plural}</span>` : "");
-      ans.classList.add("show");
-      if(canSpeak) speak(e.de);
-      /* La soluzione resta visibile finché non si preme "Avanti",
-         come nel quiz di coniugazione: nessun avanzamento automatico. */
-      const goNext = () => { genusIdx++; genusLock = false; renderGenus(); };
-      const btns = document.getElementById("genusBtns");
-      const nextBtn = document.createElement("button");
-      nextBtn.type = "button";
-      nextBtn.className = "conj-btn genus-next";
-      nextBtn.textContent = s.cqNext;
-      nextBtn.addEventListener("click", goNext);
-      btns.insertAdjacentElement("afterend", nextBtn);
+  if(chosen){
+    /* Stato "risposto" (dopo il clic o tornando indietro): soluzione visibile,
+       opzioni bloccate — punteggio e SRS non vengono toccati di nuovo. */
+    body.querySelectorAll(".genus-opt").forEach(o => {
+      if(o.dataset.a === g.art) o.classList.add("right");
+      else if(o.dataset.a === chosen) o.classList.add("wrong");
+      o.disabled = true;
     });
-  });
+    const ans = document.getElementById("genusAnswer");
+    ans.innerHTML = `<span class="genus genus-${g.art}">${g.art}</span> <b>${g.rest}</b> — ${t.it}` +
+      (plural ? `<span class="genus-pl"> · ${s.genusPlural}: ${plural}</span>` : "");
+    ans.classList.add("show");
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "conj-btn genus-next";
+    nextBtn.textContent = s.cqNext;
+    nextBtn.addEventListener("click", () => { genusIdx++; genusLock = false; renderGenus(); });
+    document.getElementById("genusNav").appendChild(nextBtn);
+  } else {
+    body.querySelectorAll(".genus-opt").forEach(b => {
+      b.addEventListener("click", () => {
+        if(genusLock) return;
+        genusLock = true;
+        const right = b.dataset.a === g.art;
+        if(right){ genusOk++; bumpStreak(); }
+        else srsAnswer(e.id, false);   // genere sbagliato → la parola finisce nel ripasso
+        genusAnswers[genusIdx] = b.dataset.a;
+        if(canSpeak) speak(e.de);
+        genusLock = false;
+        renderGenus();   // ri-renderizza in stato "risposto": soluzione + Avanti/Indietro
+      });
+    });
+  }
+  const backBtn = body.querySelector(".genus-back");
+  if(backBtn) backBtn.addEventListener("click", () => { genusLock = false; genusIdx--; renderGenus(); });
 }
 
 document.getElementById("genusClose").addEventListener("click", closeGenusQuiz);

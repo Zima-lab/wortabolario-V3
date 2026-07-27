@@ -1,13 +1,15 @@
 /* Service worker Wortabolario — strategia "stale-while-revalidate":
    risponde subito dalla cache (funziona offline), poi aggiorna la cache
    dalla rete in background. Alla pubblicazione di una nuova versione,
-   incrementare CACHE_VERSION per ripartire da una cache pulita. */
+   incrementare APP_VERSION in version.js (unica fonte, mostrata anche nel footer). */
 
-const CACHE_VERSION = "wortabolario-v10";
+importScripts("version.js");
+const CACHE_VERSION = "wortabolario-" + APP_VERSION;
 const PRECACHE = [
   ".",
   "index.html",
   "style.css",
+  "version.js",
   "app.js",
   "data.js",
   "fonts/IstokWeb-Regular.woff2",

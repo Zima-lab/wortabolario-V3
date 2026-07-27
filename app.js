@@ -479,6 +479,8 @@ function applyStaticStrings(){
   searchEl().placeholder = s.placeholder;
   document.getElementById("clearBtn").setAttribute("aria-label", s.clearAria);
   document.getElementById("footerNote").innerHTML = s.footer;
+  const verEl = document.getElementById("appVersion");
+  if(verEl && typeof APP_VERSION !== "undefined") verEl.textContent = "Wortabolario " + APP_VERSION;
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang-toggle .lang-opt").forEach(el=>{
     el.classList.toggle("active", el.dataset.lang === lang);

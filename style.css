@@ -1,30 +1,32 @@
   body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
   :root {
     color-scheme: light;
-    /* Palette: colori tradizionali giapponesi (dal libro fotografato).
-       Niente tonalità rosse: potrebbero leggersi come segnali di errore. */
-    --navy: #2b3a63;        /* Hana-iro, blu violaceo */
-    --navy-dark: #1b2340;   /* Hana-iro scuro — testo e superfici principali */
-    --navy-light: #e3e6ee;
-    --accent: #4f6673;        /* Fukagawa-nezumi / Light Glaucous Blue — accento primario (scurito per contrasto WCAG AA) */
-    --accent-light: #e4ebee;
-    --amber: #7a5f26;       /* Salmone-oro — accento secondario (scurito per contrasto WCAG AA) */
-    --amber-light: #f1e6cf;
-    --sand: #6b5d4f;      /* tono sabbia neutro — badge aggettivi (scurito per contrasto WCAG AA) */
-    --sand-light: #efe9e2;
-    --slate: #44506b;
-    --slate-light: #e7eaf0;
-    --indigo: #4a5d8f;      /* badge frasi */
-    --indigo-light: #e6e9f3;
+    /* Palette: derivata dai colori di sezione del Bignami (A navy #1a227d,
+       B teal #00796b, C arancio #f57e16, D prugna #6a1b9a) resa "web":
+       accenti scuriti per passare il contrasto WCAG AA, fondi pastello
+       presi dalle righe dell'indice del PDF. Niente rossi (= errore). */
+    --navy: #2a3490;        /* navy Bignami sez. A (ammorbidito) */
+    --navy-dark: #191f56;   /* navy scuro — testo e superfici principali */
+    --navy-light: #e2f1fc;
+    --accent: #0c6b5e;        /* teal Bignami sez. B (scurito, AA) — accento primario */
+    --accent-light: #e8f5e9;
+    --amber: #9a4a00;       /* arancio Bignami sez. C (scurito, AA) — accento secondario */
+    --amber-light: #fff8e0;
+    --plum: #6a1b9a;      /* prugna Bignami sez. D — badge aggettivi */
+    --plum-light: #ece7f6;
+    --slate: #454f78;
+    --slate-light: #e8ebf5;
+    --indigo: #46539e;      /* badge frasi */
+    --indigo-light: #e7eaf8;
     --border: #e2e8f0;
     --bg: #f8fafc;
     --card: #ffffff;
     --text: #1e293b;
-    --muted: #64748b;
-    --fill-active: #1b2340;     /* riempimento solido per pillole/chip attivi */
+    --muted: #586174;
+    --fill-active: #191f56;     /* riempimento solido per pillole/chip attivi */
     --surface-alt: #f8fafc; /* sfondo leggero per hover/campi/esempi */
-    --note-bg: #fffbeb;
-    --note-border: #fde68a;
+    --note-bg: #fff8e0;
+    --note-border: #f2d98c;
     /* Sistema di elevazione (Material-like): 3 livelli di profondità */
     --e1: 0 1px 2px rgba(15,23,42,.06), 0 1px 1px rgba(15,23,42,.05);
     --e2: 0 4px 12px rgba(15,23,42,.10), 0 2px 4px rgba(15,23,42,.06);
@@ -62,15 +64,15 @@
   }
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --navy: #93a6e0;
-    --navy-dark: #c2cdf2;
-    --navy-light: #232c47;
-    --accent: #9fb8c4;
-    --accent-light: #202b30;
-    --amber: #e0bd7a;
-    --amber-light: #2f2717;
-    --sand: #c4b6a4;
-    --sand-light: #2a2620;
+    --navy: #aab4f2;
+    --navy-dark: #c9d1f7;
+    --navy-light: #1d2440;
+    --accent: #8fd6c8;
+    --accent-light: #152c27;
+    --amber: #f2b273;
+    --amber-light: #33260f;
+    --plum: #d4aef0;
+    --plum-light: #2a2138;
     --slate: #aab6d4;
     --slate-light: #232838;
     --indigo: #a7b6e8;
@@ -270,7 +272,7 @@
   }
   .badge.verbo { background: var(--navy-light); color: var(--navy-dark); }
   .badge.sostantivo { background: var(--amber-light); color: var(--amber); }
-  .badge.aggettivo { background: var(--sand-light); color: var(--sand); }
+  .badge.aggettivo { background: var(--plum-light); color: var(--plum); }
   .badge.grammatica { background: var(--slate-light); color: var(--slate); }
   .badge.frase { background: var(--indigo-light); color: var(--indigo); }
   .badge.detto { background: var(--accent-light); color: var(--accent); }
@@ -774,3 +776,58 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
 .flash-btn { display: inline-flex; align-items: center; justify-content: center; }
 .flash-btn .ic { margin-right: 6px; }
 .cq-feedback .cq-right .ic, .cq-feedback .cq-wrong .ic { margin-right: 4px; }
+
+/* ---------- SEZIONI GRAMMATICA A-F (stessi colori dell'indice del Bignami) ----------
+   Tema chiaro: barra piena con testo bianco, come nel PDF.
+   Tema scuro: fondo pastello scuro con testo colorato (contrasto AA verificato). */
+:root {
+  --bar-a-bg: #2a3490; --bar-a-fg: #ffffff; --bar-a-line: #2a3490;
+  --bar-b-bg: #0c6b5e; --bar-b-fg: #ffffff; --bar-b-line: #0c6b5e;
+  --bar-c-bg: #b3540a; --bar-c-fg: #ffffff; --bar-c-line: #b3540a;
+  --bar-d-bg: #6a1b9a; --bar-d-fg: #ffffff; --bar-d-line: #6a1b9a;
+}
+:root[data-theme="dark"] {
+  --bar-a-bg: #1d2440; --bar-a-fg: #aab4f2; --bar-a-line: #aab4f2;
+  --bar-b-bg: #152c27; --bar-b-fg: #8fd6c8; --bar-b-line: #8fd6c8;
+  --bar-c-bg: #33260f; --bar-c-fg: #f2b273; --bar-c-line: #f2b273;
+  --bar-d-bg: #2a2138; --bar-d-fg: #d4aef0; --bar-d-line: #d4aef0;
+}
+.gsec-group { margin-bottom: var(--sp-4); }
+.gsec {
+  display: flex; align-items: center; gap: var(--sp-25);
+  border-radius: 10px; padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-4) 0 var(--sp-25);
+  font-weight: 700; font-size: var(--fs-sm); letter-spacing: .02em;
+  box-shadow: var(--e1);
+}
+.gsec-a { background: var(--bar-a-bg); color: var(--bar-a-fg); }
+.gsec-b { background: var(--bar-b-bg); color: var(--bar-b-fg); }
+.gsec-c { background: var(--bar-c-bg); color: var(--bar-c-fg); }
+.gsec-d { background: var(--bar-d-bg); color: var(--bar-d-fg); }
+.gsec-code {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 22px; height: 22px; border-radius: 6px;
+  background: rgba(255,255,255,.16); font-weight: 800;
+}
+.gsec-title { text-transform: uppercase; }
+.gsec-n { margin-left: auto; font-size: var(--fs-2xs); opacity: .85; }
+/* Filo colorato sul bordo sinistro delle schede: lega la scheda alla sua sezione */
+.gsec-group-a .entry { border-left: 3px solid var(--bar-a-line); }
+.gsec-group-b .entry { border-left: 3px solid var(--bar-b-line); }
+.gsec-group-c .entry { border-left: 3px solid var(--bar-c-line); }
+.gsec-group-d .entry { border-left: 3px solid var(--bar-d-line); }
+
+/* ---------- CARD "OGGI" (ripasso + serie + riprendi in un pannello solo) ---------- */
+.today-panel-title {
+  display: inline-flex; align-items: center; gap: var(--sp-15);
+  font-weight: 800; color: var(--navy-dark); font-size: var(--fs-base);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.today-panel .progress-label { display: block; margin-top: var(--sp-15); font-size: var(--fs-xs); color: var(--muted); }
+.resume-row { margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px dashed var(--border); }
+.resume-label {
+  display: block; font-size: var(--fs-2xs); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+  margin-bottom: var(--sp-15);
+}
+.resume-row .recent-strip { margin-top: 0; }

@@ -352,6 +352,7 @@ const UI_STRINGS = {
     placeholder: "Cerca in tedesco o in italiano… (es. 'Wohnung', 'appartamento', 'helfen')",
     clearAria: "Cancella ricerca",
     today: "Oggi",
+    cardsOfDay: "Le carte del giorno",
     cardVerbo: "Verbo del giorno", cardParola: "Parola del giorno", cardFrase: "Frase del giorno", cardDetto: "Detto del giorno",
     countSuffix: " voci",
     emptyPrefix: "Nessuna voce trovata per \"", emptySuffix: "\".",
@@ -414,6 +415,7 @@ const UI_STRINGS = {
     placeholder: "Search in German or English… (e.g. 'Wohnung', 'apartment', 'helfen')",
     clearAria: "Clear search",
     today: "Today",
+    cardsOfDay: "Cards of the day",
     cardVerbo: "Verb of the day", cardParola: "Word of the day", cardFrase: "Phrase of the day", cardDetto: "Saying of the day",
     countSuffix: " entries",
     emptyPrefix: "No entry found for \"", emptySuffix: "\".",
@@ -767,6 +769,31 @@ const BIGNAMI_PAGES = {
   "an · in · auf · zu/bei — dove vai / dove sei": 43
 };
 
+/* ---------- SEZIONI DEL BIGNAMI (A-F) ----------
+   La sezione si ricava dalla pagina del PDF: così la vista grammatica
+   dell'app rispecchia l'indice del Bignami, con gli stessi colori. */
+function bignamiSection(e){
+  const p = BIGNAMI_PAGES[e.de];
+  if(!p) return null;
+  if(p <= 15) return "A";
+  if(p <= 21) return "B";
+  if(p <= 32) return "C";
+  if(p <= 38) return "D";
+  if(p <= 41) return "E";
+  return "F";
+}
+const SEC_ORDER = ["A","B","C","D","E","F"];
+const SEC_LABELS = {
+  A: { it: "I casi e i pronomi",            en: "Cases and pronouns" },
+  B: { it: "Preposizioni e verbi",          en: "Prepositions and verbs" },
+  C: { it: "Congiunzioni e Nebensätze",     en: "Conjunctions and subordinate clauses" },
+  D: { it: "Tempi verbali",                 en: "Verb tenses" },
+  E: { it: "Struttura della frase",         en: "Sentence structure" },
+  F: { it: "Luogo e direzione",             en: "Place and direction" }
+};
+/* Colore di sezione come nel PDF: A/E navy, B/F teal, C arancio, D prugna */
+const SEC_COLOR = { A: "a", B: "b", C: "c", D: "d", E: "a", F: "b" };
+
 /* Articolo colorato per genere (der/die/das) — aiuta a memorizzare il genere */
 function genusChip(e){
   if(e.type !== "sostantivo") return null;
@@ -1010,7 +1037,25 @@ function renderResults(){
       : `<div class="empty"><div class="empty-ic">${ic("search")}</div>${s.emptyPrefix}${q}${s.emptySuffix}</div>`;
     return;
   }
-  host.innerHTML = list.map(renderEntry).join("");
+  /* Vista grammatica senza ricerca: raggruppata per sezioni A-F come il Bignami */
+  if(type === "grammatica" && !q){
+    const bySec = {};
+    list.forEach(e => { const k = bignamiSection(e) || "A"; (bySec[k] = bySec[k] || []).push(e); });
+    host.innerHTML = SEC_ORDER.filter(k => bySec[k]).map(k => {
+      const items = bySec[k].slice().sort((x,y) => (BIGNAMI_PAGES[x.de] || 99) - (BIGNAMI_PAGES[y.de] || 99));
+      return `
+      <section class="gsec-group gsec-group-${SEC_COLOR[k]}">
+        <div class="gsec gsec-${SEC_COLOR[k]}">
+          <span class="gsec-code">${k}</span>
+          <span class="gsec-title">${SEC_LABELS[k][lang === "en" ? "en" : "it"]}</span>
+          <span class="gsec-n">${items.length}</span>
+        </div>
+        ${items.map(renderEntry).join("")}
+      </section>`;
+    }).join("");
+  } else {
+    host.innerHTML = list.map(renderEntry).join("");
+  }
   host.querySelectorAll(".entry-head").forEach(h=>{
     h.addEventListener("click", (ev)=>{
       if(ev.target.closest(".fav-btn")) return;
@@ -1133,34 +1178,37 @@ function renderHome(){
   const nLearned = learnedIds.size, nTot = ENTRIES.length;
   const pct = nTot ? Math.round(nLearned / nTot * 100) : 0;
   const nDue = dueEntries().length;
+  /* Card "Oggi": un unico pannello con ripasso del giorno, serie e "riprendi" —
+     tutto ciò che serve per la sessione quotidiana in un posto solo. */
+  const recents = recentIds.map(id => ENTRIES.find(e => e.id === id)).filter(Boolean);
   const progressHtml = `
-    <div class="progress-card">
+    <div class="progress-card today-panel">
       <div class="progress-top">
-        <span class="progress-label">${s.progressLabel(nLearned, nTot)}</span>
+        <span class="today-panel-title">${ic("sun","ic-sm")}${s.today}</span>
         <span class="streak-chip" title="${s.streakTitle}">${ic("flame","ic-sm")}${streakCount() > 0 ? s.streakLabel(streakCount()) : s.streakStart}</span>
       </div>
       <div class="progress-track" role="progressbar" aria-valuenow="${nLearned}" aria-valuemin="0" aria-valuemax="${nTot}">
         <div class="progress-fill" style="width:${Math.max(pct, nLearned > 0 ? 2 : 0)}%"></div>
       </div>
+      <span class="progress-label">${s.progressLabel(nLearned, nTot)}</span>
       <div class="progress-actions">
         ${nDue > 0
           ? `<button type="button" class="review-btn due-btn" id="dueBtn">${ic("clock","ic-sm")}${s.dueBtn(nDue)}</button>`
           : `<span class="due-done">${ic("check","ic-sm")}${s.dueAllDone}</span>`}
       </div>
+      ${recents.length ? `
+      <div class="resume-row">
+        <span class="resume-label">${s.recentTitle}</span>
+        <div class="recent-strip">
+          ${recents.map(e => `<button type="button" class="recent-chip" data-id="${e.id}"><span class="rc-de">${e.de}</span><span class="rc-it">${L(e).it}</span></button>`).join("")}
+        </div>
+      </div>` : ""}
     </div>`;
-
-  const recents = recentIds.map(id => ENTRIES.find(e => e.id === id)).filter(Boolean);
-  const recentHtml = recents.length ? `
-    <p class="eyebrow">${s.recentTitle}</p>
-    <div class="recent-strip">
-      ${recents.map(e => `<button type="button" class="recent-chip" data-id="${e.id}"><span class="rc-de">${e.de}</span><span class="rc-it">${L(e).it}</span></button>`).join("")}
-    </div>` : "";
 
   host.innerHTML = `
     ${renderDateStrip()}
     ${progressHtml}
-    ${recentHtml}
-    <p class="eyebrow">${s.today}</p>
+    <p class="eyebrow">${s.cardsOfDay}</p>
     <div class="today-grid">
       ${cards.map(c => {
         const t = L(c.e);

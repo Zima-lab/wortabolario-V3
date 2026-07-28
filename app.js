@@ -394,6 +394,12 @@ const UI_STRINGS = {
     exFlash: "Flashcard", exFlashDesc: "Carte DE ↔ IT con ripetizione spaziata",
     exGenus: "der · die · das", exGenusDesc: "Indovina l'articolo giusto",
     exConj: "Coniugazione", exConjDesc: "Scrivi tu la forma verbale richiesta",
+    exWww: "wurde · würde · werden", exWwwDesc: "Scegli la forma giusta nella frase",
+    wwTitle: "Quiz: wurde, würde o werden?",
+    wwPrompt: "Completa la frase con la forma giusta",
+    wwPerfect: "Perfetto! Fatti, ipotesi e futuro sono al loro posto.",
+    wwGood: "Bene! Le sbagliate finiscono nel ripasso.",
+    wwMeh: "Ricorda il trucco dell'Umlaut e riprova!",
     backupTitle: "I tuoi progressi", backupHint: "Esporta un backup di preferiti, parole imparate e ripassi, o importalo su un altro dispositivo.",
     backupExport: "Esporta", backupImport: "Importa",
     importOk: "Progressi importati! L'app ora si ricarica.",
@@ -457,6 +463,12 @@ const UI_STRINGS = {
     exFlash: "Flashcards", exFlashDesc: "DE ↔ EN cards with spaced repetition",
     exGenus: "der · die · das", exGenusDesc: "Guess the right article",
     exConj: "Conjugation", exConjDesc: "Type the requested verb form yourself",
+    exWww: "wurde · würde · werden", exWwwDesc: "Pick the right form in the sentence",
+    wwTitle: "Quiz: wurde, würde or werden?",
+    wwPrompt: "Complete the sentence with the right form",
+    wwPerfect: "Perfect! Facts, hypotheses and future all in place.",
+    wwGood: "Well done! Wrong ones go to review.",
+    wwMeh: "Remember the umlaut trick and try again!",
     backupTitle: "Your progress", backupHint: "Export a backup of favourites, learned words and reviews, or import it on another device.",
     backupExport: "Export", backupImport: "Import",
     importOk: "Progress imported! The app will now reload.",
@@ -712,6 +724,10 @@ function bindSpeakBtns(root){
 /* ---------- COLLEGAMENTO AL BIGNAMI (PDF, pagina per pagina) ---------- */
 
 const BIGNAMI_PDF = "Grammatica_Tedesca_B1_Bignami.pdf";
+const BIGNAMI_PDF_EN = "German_Grammar_B1_Bignami_EN.pdf";
+/* Stesso layout e stessa numerazione di pagina in entrambe le lingue:
+   BIGNAMI_PAGES vale per tutti e due i PDF. */
+function bignamiPdf(){ return lang === "en" ? BIGNAMI_PDF_EN : BIGNAMI_PDF; }
 const BIGNAMI_PAGES = {
   /* Sezione A · I casi e i pronomi (pp. 2-15) */
   "Interrogativpronomen": 2,
@@ -766,7 +782,9 @@ const BIGNAMI_PAGES = {
   "Adjektivdeklination + Komparativ/Superlativ": 41,
   /* Sezione F · Luogo e direzione (pp. 42-43) */
   "Wohin? / Wo? — i nomi geografici": 42,
-  "an · in · auf · zu/bei — dove vai / dove sei": 43
+  "an · in · auf · zu/bei — dove vai / dove sei": 43,
+  /* Appendice (p. 44) */
+  "wurde · würde · werden — le differenze": 44
 };
 
 /* ---------- SEZIONI DEL BIGNAMI (A-F) ----------
@@ -780,19 +798,21 @@ function bignamiSection(e){
   if(p <= 32) return "C";
   if(p <= 38) return "D";
   if(p <= 41) return "E";
-  return "F";
+  if(p <= 43) return "F";
+  return "AP";
 }
-const SEC_ORDER = ["A","B","C","D","E","F"];
+const SEC_ORDER = ["A","B","C","D","E","F","AP"];
 const SEC_LABELS = {
   A: { it: "I casi e i pronomi",            en: "Cases and pronouns" },
   B: { it: "Preposizioni e verbi",          en: "Prepositions and verbs" },
   C: { it: "Congiunzioni e Nebensätze",     en: "Conjunctions and subordinate clauses" },
   D: { it: "Tempi verbali",                 en: "Verb tenses" },
   E: { it: "Struttura della frase",         en: "Sentence structure" },
-  F: { it: "Luogo e direzione",             en: "Place and direction" }
+  F: { it: "Luogo e direzione",             en: "Place and direction" },
+  AP:{ it: "Appendice",                     en: "Appendix" }
 };
-/* Colore di sezione come nel PDF: A/E navy, B/F teal, C arancio, D prugna */
-const SEC_COLOR = { A: "a", B: "b", C: "c", D: "d", E: "a", F: "b" };
+/* Colore di sezione come nel PDF: A/E navy, B/F teal, C arancio, D prugna, Appendice ardesia */
+const SEC_COLOR = { A: "a", B: "b", C: "c", D: "d", E: "a", F: "b", AP: "ap" };
 
 /* Articolo colorato per genere (der/die/das) — aiuta a memorizzare il genere */
 function genusChip(e){
@@ -895,7 +915,7 @@ function renderEntry(e){
   const noteHtml = t.note ? `<div class="note">${t.note}</div>` : "";
   const bigPage = e.type === "grammatica" ? BIGNAMI_PAGES[e.de] : null;
   const bignamiHtml = bigPage
-    ? `<a class="bignami-link" href="${BIGNAMI_PDF}#page=${bigPage}" target="_blank" rel="noopener">${ic("book","ic-sm")}${s.bignamiLink(bigPage)}</a>`
+    ? `<a class="bignami-link" href="${bignamiPdf()}#page=${bigPage}" target="_blank" rel="noopener">${ic("book","ic-sm")}${s.bignamiLink(bigPage)}</a>`
     : "";
   const conjBtnHtml = e.type === "verbo"
     ? `<button type="button" class="conj-btn" data-vid="${e.id}">${ic("pencil","ic-sm")}${UI_STRINGS[lang].conjBtn}</button>`
@@ -1268,7 +1288,8 @@ function renderExercises(){
     { id: "exDue",   ic: "clock",  name: s.exDue,   desc: s.exDueDesc(nDue), cls: nDue > 0 ? "ex-hot" : "" },
     { id: "exFlash", ic: "cards",  name: s.exFlash, desc: s.exFlashDesc },
     { id: "exGenus", ic: "dice",   name: s.exGenus, desc: s.exGenusDesc },
-    { id: "exConj",  ic: "pencil", name: s.exConj,  desc: s.exConjDesc }
+    { id: "exConj",  ic: "pencil", name: s.exConj,  desc: s.exConjDesc },
+    { id: "exWww",   ic: "book",   name: s.exWww,   desc: s.exWwwDesc }
   ];
   host.innerHTML = `
     <p class="eyebrow">${s.exTitle}</p>
@@ -1284,6 +1305,7 @@ function renderExercises(){
   document.getElementById("exFlash").addEventListener("click", () => openFlashcards());
   document.getElementById("exGenus").addEventListener("click", () => openGenusQuiz());
   document.getElementById("exConj").addEventListener("click", () => openConjQuiz());
+  document.getElementById("exWww").addEventListener("click", () => openWwQuiz());
 }
 
 function setTab(t){
@@ -1856,6 +1878,153 @@ document.getElementById("cqOverlay").addEventListener("click", (ev) => {
 });
 document.addEventListener("keydown", (ev) => {
   if(ev.key === "Escape" && document.getElementById("cqOverlay").classList.contains("open")) closeConjQuiz();
+});
+
+/* ---------- QUIZ wurde · würde · werden (Appendice del Bignami, p. 44) ----------
+   Frase con il buco: si sceglie tra le tre "anime" di werden, coniugate per la
+   persona della frase. Ogni soluzione spiega PERCHÉ (il marcatore nella frase).
+   Stesso pattern del quiz genus: niente timer, Avanti/Indietro, revisione
+   senza ritoccare punteggio/SRS. Errore → la voce Appendice entra nel ripasso. */
+
+const WW_ITEMS = [
+  { q:"Ich ___ gern nach Berlin fahren.", opts:["wurde","würde","werde"], a:"würde",
+    why:{it:"desiderio (gern) → Konjunktiv II", en:"wish (gern) → Konjunktiv II"} },
+  { q:"Er ___ 2010 Arzt.", opts:["wurde","würde","wird"], a:"wurde",
+    why:{it:"fatto reale del passato (2010) → Präteritum", en:"real past fact (2010) → Präteritum"} },
+  { q:"Das Haus ___ 1990 gebaut.", opts:["wurde","würde","wird"], a:"wurde",
+    why:{it:"Passiv al passato (1990)", en:"past passive (1990)"} },
+  { q:"___ du mir bitte helfen?", opts:["Wurdest","Würdest","Wirst"], a:"Würdest",
+    why:{it:"richiesta gentile (bitte) → Konjunktiv II", en:"polite request (bitte) → Konjunktiv II"} },
+  { q:"Morgen ___ ich 30 Jahre alt.", opts:["wurde","würde","werde"], a:"werde",
+    why:{it:"futuro certo (morgen) → werden", en:"certain future (morgen) → werden"} },
+  { q:"An deiner Stelle ___ ich warten.", opts:["wurde","würde","werde"], a:"würde",
+    why:{it:"consiglio/ipotesi (an deiner Stelle) → Konjunktiv II", en:"advice/hypothesis (an deiner Stelle) → Konjunktiv II"} },
+  { q:"Das Brot ___ jeden Morgen frisch gebacken.", opts:["wurde","würde","wird"], a:"wird",
+    why:{it:"Passiv al presente: abitudine (jeden Morgen)", en:"present passive: habit (jeden Morgen)"} },
+  { q:"Er ___ reich, wenn er mehr arbeitete.", opts:["wurde","würde","wird"], a:"würde",
+    why:{it:"ipotesi con wenn → Konjunktiv II", en:"hypothesis with wenn → Konjunktiv II"} },
+  { q:"Sie ___ letztes Jahr Mutter.", opts:["wurde","würde","wird"], a:"wurde",
+    why:{it:"fatto reale (letztes Jahr) → Präteritum", en:"real fact (letztes Jahr) → Präteritum"} },
+  { q:"Wir ___ nächstes Jahr bestimmt nach Spanien fliegen.", opts:["wurden","würden","werden"], a:"werden",
+    why:{it:"piano certo (bestimmt) → Futur I", en:"certain plan (bestimmt) → Futur I"} },
+  { q:"Die Berliner Mauer ___ 1989 geöffnet.", opts:["wurde","würde","wird"], a:"wurde",
+    why:{it:"Passiv al passato (1989)", en:"past passive (1989)"} },
+  { q:"___ Sie bitte das Fenster schließen?", opts:["Wurden","Würden","Werden"], a:"Würden",
+    why:{it:"cortesia con Sie → Konjunktiv II", en:"politeness with Sie → Konjunktiv II"} }
+];
+/* colore per "anima": wurd- teal (fatto), ü prugna (ipotesi), il resto navy (presente/futuro) */
+function wwOptClass(opt){
+  if(opt.includes("ü") || opt.includes("Ü")) return "ww-plum";
+  if(opt.toLowerCase().startsWith("wurd")) return "ww-teal";
+  return "ww-navy";
+}
+function wwEntry(){
+  return ENTRIES.find(e => e.type === "grammatica" && e.de.startsWith("wurde · würde · werden"));
+}
+
+let wwDeck = [], wwIdx = 0, wwOk = 0, wwAnswers = [], wwLock = false;
+
+function openWwQuiz(){
+  const items = WW_ITEMS.slice();
+  for(let i = items.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  wwDeck = items.slice(0, 10);
+  wwIdx = 0; wwOk = 0; wwAnswers = []; wwLock = false;
+  document.getElementById("wwOverlay").classList.add("open");
+  document.body.classList.add("conj-lock");
+  renderWw();
+}
+function closeWwQuiz(){
+  document.getElementById("wwOverlay").classList.remove("open");
+  document.body.classList.remove("conj-lock");
+  updateView();
+}
+
+function renderWw(){
+  const s = UI_STRINGS[lang];
+  const body = document.getElementById("wwBody");
+  document.getElementById("wwTitle").textContent = s.wwTitle +
+    (wwDeck.length && wwIdx < wwDeck.length ? ` · ${wwIdx + 1} / ${wwDeck.length}` : "");
+
+  if(wwIdx >= wwDeck.length){
+    const msg = wwOk === wwDeck.length ? s.wwPerfect : (wwOk >= wwDeck.length * 0.7 ? s.wwGood : s.wwMeh);
+    body.innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-ic">${ic(wwOk === wwDeck.length ? "checkSeal" : "book")}</div>
+        <h3>${s.cqDoneTitle}</h3>
+        <p>${s.cqDoneMsg(wwOk, wwDeck.length)}<br>${msg}</p>
+        <div class="flash-actions">
+          <button type="button" class="conj-btn" id="wwRestart">${s.flashRestart}</button>
+          <button type="button" class="flash-secondary" id="wwEnd">${s.flashCloseBtn}</button>
+        </div>
+      </div>`;
+    document.getElementById("wwRestart").addEventListener("click", openWwQuiz);
+    document.getElementById("wwEnd").addEventListener("click", closeWwQuiz);
+    return;
+  }
+
+  const it = wwDeck[wwIdx];
+  const chosen = wwAnswers[wwIdx];   // definito = domanda già risposta (revisione)
+
+  body.innerHTML = `
+    <div class="flash-progress"><div class="flash-progress-fill" style="width:${(wwIdx / wwDeck.length) * 100}%"></div></div>
+    <div class="genus-question">
+      <div class="ww-sentence">${it.q.replace("___", '<span class="ww-gap">___</span>')}</div>
+      <div class="genus-hint">${s.wwPrompt}</div>
+      <div class="genus-answer" id="wwAnswer"></div>
+    </div>
+    <div class="genus-btns" id="wwBtns">
+      ${it.opts.map(o => `<button type="button" class="genus-opt ww-opt ${wwOptClass(o)}" data-a="${o}">${o}</button>`).join("")}
+    </div>
+    <div class="genus-nav" id="wwNav">
+      ${wwIdx > 0 ? `<button type="button" class="flash-secondary ww-back">${s.quizBack}</button>` : ""}
+    </div>`;
+
+  if(chosen){
+    body.querySelectorAll(".ww-opt").forEach(o => {
+      if(o.dataset.a === it.a) o.classList.add("right");
+      else if(o.dataset.a === chosen) o.classList.add("wrong");
+      o.disabled = true;
+    });
+    const ans = document.getElementById("wwAnswer");
+    ans.innerHTML = `<b>${it.q.replace("___", it.a)}</b><br><span class="ww-why">${it.why[lang === "en" ? "en" : "it"]}</span>`;
+    ans.classList.add("show");
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "conj-btn genus-next";
+    nextBtn.textContent = s.cqNext;
+    nextBtn.addEventListener("click", () => { wwIdx++; wwLock = false; renderWw(); });
+    document.getElementById("wwNav").appendChild(nextBtn);
+  } else {
+    body.querySelectorAll(".ww-opt").forEach(b => {
+      b.addEventListener("click", () => {
+        if(wwLock) return;
+        wwLock = true;
+        const right = b.dataset.a === it.a;
+        if(right){ wwOk++; bumpStreak(); }
+        else {
+          const g = wwEntry();
+          if(g) srsAnswer(g.id, false);   // errore → la voce Appendice va in ripasso
+        }
+        wwAnswers[wwIdx] = b.dataset.a;
+        if(canSpeak) speak(it.q.replace("___", it.a));
+        wwLock = false;
+        renderWw();   // ri-renderizza in stato "risposto": soluzione + perché + Avanti
+      });
+    });
+  }
+  const backBtn = body.querySelector(".ww-back");
+  if(backBtn) backBtn.addEventListener("click", () => { wwLock = false; wwIdx--; renderWw(); });
+}
+
+document.getElementById("wwClose").addEventListener("click", closeWwQuiz);
+document.getElementById("wwOverlay").addEventListener("click", (ev) => {
+  if(ev.target.id === "wwOverlay") closeWwQuiz();
+});
+document.addEventListener("keydown", (ev) => {
+  if(ev.key === "Escape" && document.getElementById("wwOverlay").classList.contains("open")) closeWwQuiz();
 });
 
 /* ---------- TORNA SU ---------- */

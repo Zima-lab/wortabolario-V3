@@ -20,7 +20,8 @@ const PRECACHE = [
   "manifest.webmanifest",
   "icon.png",
   "favicon.png",
-  "Grammatica_Tedesca_B1_Bignami.pdf"
+  "Grammatica_Tedesca_B1_Bignami.pdf",
+  "German_Grammar_B1_Bignami_EN.pdf"
 ];
 
 self.addEventListener("install", (event) => {

@@ -790,12 +790,14 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
   --bar-b-bg: #0c6b5e; --bar-b-fg: #ffffff; --bar-b-line: #0c6b5e;
   --bar-c-bg: #b3540a; --bar-c-fg: #ffffff; --bar-c-line: #b3540a;
   --bar-d-bg: #6a1b9a; --bar-d-fg: #ffffff; --bar-d-line: #6a1b9a;
+  --bar-ap-bg: #37474f; --bar-ap-fg: #ffffff; --bar-ap-line: #37474f;
 }
 :root[data-theme="dark"] {
   --bar-a-bg: #1d2440; --bar-a-fg: #aab4f2; --bar-a-line: #aab4f2;
   --bar-b-bg: #152c27; --bar-b-fg: #8fd6c8; --bar-b-line: #8fd6c8;
   --bar-c-bg: #33260f; --bar-c-fg: #f2b273; --bar-c-line: #f2b273;
   --bar-d-bg: #2a2138; --bar-d-fg: #d4aef0; --bar-d-line: #d4aef0;
+  --bar-ap-bg: #232b30; --bar-ap-fg: #b0bec5; --bar-ap-line: #b0bec5;
 }
 .gsec-group { margin-bottom: var(--sp-4); }
 .gsec {
@@ -809,6 +811,7 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
 .gsec-b { background: var(--bar-b-bg); color: var(--bar-b-fg); }
 .gsec-c { background: var(--bar-c-bg); color: var(--bar-c-fg); }
 .gsec-d { background: var(--bar-d-bg); color: var(--bar-d-fg); }
+.gsec-ap { background: var(--bar-ap-bg); color: var(--bar-ap-fg); }
 .gsec-code {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 22px; height: 22px; border-radius: 6px;
@@ -821,6 +824,20 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
 .gsec-group-b .entry { border-left: 3px solid var(--bar-b-line); }
 .gsec-group-c .entry { border-left: 3px solid var(--bar-c-line); }
 .gsec-group-d .entry { border-left: 3px solid var(--bar-d-line); }
+.gsec-group-ap .entry { border-left: 3px solid var(--bar-ap-line); }
+
+/* ---------- Quiz wurde · würde · werden ---------- */
+/* Colori per "anima" come nelle card del Bignami: fatto teal, ipotesi prugna, presente/futuro navy */
+.ww-opt { font-size: var(--fs-lg); }
+.ww-teal { background: var(--accent-light); color: var(--accent); }
+.ww-plum { background: var(--plum-light); color: var(--plum); }
+.ww-navy { background: var(--navy-light); color: var(--navy); }
+.ww-sentence {
+  font-family: 'Poltawski Nowy', 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: var(--fs-xl); font-weight: 700; line-height: 1.35;
+}
+.ww-gap { color: var(--amber); letter-spacing: 1px; }
+.ww-why { font-size: var(--fs-sm); color: var(--muted); }
 
 /* ---------- CARD "OGGI" (ripasso + serie + riprendi in un pannello solo) ---------- */
 .today-panel-title {

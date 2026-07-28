@@ -539,7 +539,15 @@ const GRAMMATICA = [
     note:"Wechselpräpositionen: Wohin? → Akkusativ · Wo? → Dativ, con la stessa preposizione. Con le persone il caso è sempre Dativ: cambia solo la preposizione (zu = vai, bei = sei).",
     enNote:"Wechselpräpositionen: Wohin? → Akkusativ · Wo? → Dativ, with the same preposition. With people the case is always Dativ: only the preposition changes (zu = going, bei = being).",
     ex:[["Ich gehe an den Strand. — Ich bin am Strand.","Vado in spiaggia. — Sono in spiaggia."],["Wir fahren zu den Eltern. — Wir sind bei den Eltern.","Andiamo dai genitori. — Siamo dai genitori."]],
-    enEx:[["Ich gehe an den Strand. — Ich bin am Strand.","I'm going to the beach. — I'm at the beach."],["Wir fahren zu den Eltern. — Wir sind bei den Eltern.","We're driving to our parents'. — We're at our parents'."]]}
+    enEx:[["Ich gehe an den Strand. — Ich bin am Strand.","I'm going to the beach. — I'm at the beach."],["Wir fahren zu den Eltern. — Wir sind bei den Eltern.","We're driving to our parents'. — We're at our parents'."]]},
+  /* Appendice del Bignami (p. 44) */
+  {de:"wurde · würde · werden — le differenze", it:"fatto passato · ipotesi · presente/futuro", en:"past fact · hypothesis · present/future", cat:"tempi verbali",
+    rows:[["werden (presente)","3 usi: diventare → Er wird Arzt. · Futur I → Ich werde morgen arbeiten. · Passiv → Das Haus wird gebaut."],["wurde (Präteritum)","fatto REALE del passato: Er wurde Arzt. (diventò) · Das Haus wurde 1990 gebaut. (Passiv al passato)"],["würde (Konjunktiv II)","ipotesi, desiderio, cortesia = il condizionale \"-rei\": Ich würde gern kommen. · Würdest du mir helfen?"],["Il trucco dell'Umlaut","wurde senza puntini = è successo davvero · würde con i puntini = mondo ipotetico"]],
+    enRows:[["werden (present)","3 uses: to become → Er wird Arzt. · Futur I → Ich werde morgen arbeiten. · Passiv → Das Haus wird gebaut."],["wurde (Präteritum)","REAL past fact: Er wurde Arzt. (he became) · Das Haus wurde 1990 gebaut. (past passive)"],["würde (Konjunktiv II)","hypothesis, wish, politeness = English \"would\": Ich würde gern kommen. · Würdest du mir helfen?"],["The umlaut trick","wurde without dots = it really happened · würde with dots = hypothetical world"]],
+    note:"Il Konjunktiv II nasce dal Präteritum + Umlaut: würde è wurde \"spostato\" nell'irrealtà. Confronto: Er wurde reich. (diventò ricco, fatto) · Er würde reich, wenn er mehr arbeitete. (diventerebbe ricco, ipotesi)",
+    enNote:"Konjunktiv II comes from Präteritum + umlaut: würde is wurde \"shifted\" into unreality. Compare: Er wurde reich. (he got rich, fact) · Er würde reich, wenn er mehr arbeitete. (he would get rich, hypothesis)",
+    ex:[["Ich würde gern nach Berlin fahren.","Andrei volentieri a Berlino."],["Die Mauer wurde 1989 geöffnet.","Il Muro fu aperto nel 1989."]],
+    enEx:[["Ich würde gern nach Berlin fahren.","I would gladly go to Berlin."],["Die Mauer wurde 1989 geöffnet.","The Wall was opened in 1989."]]}
 ];
 const FRASI = [
   ["Wie geht's?","Come va?","How are you?"],

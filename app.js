@@ -327,8 +327,9 @@ const CAT_EN = {
   "cibo":"food", "salute":"health", "corpo":"body", "arte":"art", "scuola":"school",
   "ausiliare":"auxiliary", "modale":"modal", "movimento":"motion", "percezione":"perception",
   "comunicazione":"communication", "quotidiano":"everyday", "mentale":"mental", "posizione":"position",
-  "riflessivo":"reflexive", "aggettivo":"adjective",
+  "riflessivo":"reflexive", "aggettivo":"adjective", "avverbio":"adverb",
   "casi":"cases", "pronomi":"pronouns", "reggenza":"verb government", "sintassi":"syntax",
+  "verbi con preposizione":"verbs with prepositions",
   "tempi verbali":"verb tenses", "connettori":"connectors", "aggettivi":"adjectives",
   "modali":"modal verbs", "preposizioni":"prepositions", "verbi":"verbs",
   "frase utile":"useful phrase", "detto":"saying"
@@ -738,7 +739,9 @@ const BIGNAMI_PAGES = {
   "Nominativ/Akkusativ/Dativ — il trucco": 4,
   "Relativpronomen": 5,
   "Infinitiv mit zu": 6,
+  "Verbi modali: mai zu davanti all'infinito": 6,
   "Reflexivpronomen (Akk./Dat.)": 7,
+  "Riflessivo + parte del corpo: mich o mir?": 7,
   "Adjektivdeklination — le desinenze": 8,
   "nicht brauchen zu": 9,
   "Indefinitpronomen": 10,
@@ -749,8 +752,10 @@ const BIGNAMI_PAGES = {
   "n-Deklination": 15,
   /* Sezione B · Preposizioni e verbi (pp. 16-21) */
   "Auf, über, als, mit, bei, zu": 16,
+  "mit · zu · von — sempre dativo": 16,
   "Pronominaladverb: wo(r)+ / da(r)+": 17,
   "Verben mit Präpositionen": 18,
+  "telefonieren mit vs. anrufen": 18,
   "Präposition + dass-Satz": 19,
   "sonst": 20,
   "Präpositionen mit Genitiv": 21,
@@ -763,6 +768,7 @@ const BIGNAMI_PAGES = {
   "als / wenn / wann": 26,
   "seit/seitdem und bis": 26,
   "Verben mit doppelter Bedeutung": 27,
+  "Coppie che si confondono: lernen · laufen · üben": 27,
   "Wenn das Komma die Bedeutung ändert": 28,
   "Nebensatz mit während": 29,
   "Nebensatz mit nachdem": 30,
@@ -779,10 +785,12 @@ const BIGNAMI_PAGES = {
   /* Sezione E · Struttura della frase (pp. 39-41) */
   "Tekamolo": 39,
   "Komparativ & Superlativ": 40,
+  "Comparativi irregolari: viel · gern · gut": 40,
   "Adjektivdeklination + Komparativ/Superlativ": 41,
   /* Sezione F · Luogo e direzione (pp. 42-43) */
   "Wohin? / Wo? — i nomi geografici": 42,
   "an · in · auf · zu/bei — dove vai / dove sei": 43,
+  "am Montag · in der Nacht — le preposizioni di tempo": 43,
   /* Appendice (p. 44) */
   "wurde · würde · werden — le differenze": 44
 };

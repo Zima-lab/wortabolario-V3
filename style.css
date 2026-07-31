@@ -584,7 +584,10 @@
      Cerchietto con bordo + target 44px (senza ::after, che qui non basterebbe). */
   .quiz-speak {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 44px; height: 44px; min-width: 44px; padding: 0;
+    /* min-height e non solo height: più avanti nel foglio c'è
+       `.speak-btn, .fav-btn, .icon-spacer { width:34px; height:34px }`
+       che, essendo successiva e di pari specificità, vincerebbe su height. */
+    width: 44px; height: 44px; min-width: 44px; min-height: 44px; padding: 0;
     margin-left: var(--sp-15); vertical-align: middle;
     border: 1.5px solid var(--border); border-radius: 999px;
     background: var(--card); color: var(--accent); opacity: 1;

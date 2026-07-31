@@ -712,7 +712,8 @@ function speak(text){
 }
 function speakBtnHtml(text, cls){
   if(!canSpeak) return "";
-  return `<button type="button" class="speak-btn ${cls || ""}" data-say="${text.replace(/"/g, "&quot;")}" aria-label="ascolta">${ic("speaker")}</button>`;
+  const aria = (UI_STRINGS[lang] || UI_STRINGS.it).speakAria;
+  return `<button type="button" class="speak-btn ${cls || ""}" data-say="${text.replace(/"/g, "&quot;")}" aria-label="${aria}" title="${aria}">${ic("speaker")}</button>`;
 }
 function bindSpeakBtns(root){
   (root || document).querySelectorAll(".speak-btn").forEach(b => {
@@ -1727,9 +1728,14 @@ function renderGenus(){
       o.disabled = true;
     });
     const ans = document.getElementById("genusAnswer");
+    /* La pronuncia NON parte da sola: il pulsante la fa sentire quando vuoi,
+       e soprattutto permette di RIPETERLA. Legge articolo + sostantivo insieme,
+       che è il punto di questo esercizio. */
     ans.innerHTML = `<span class="genus genus-${g.art}">${g.art}</span> <b>${g.rest}</b> — ${t.it}` +
-      (plural ? `<span class="genus-pl"> · ${s.genusPlural}: ${plural}</span>` : "");
+      (plural ? `<span class="genus-pl"> · ${s.genusPlural}: ${plural}</span>` : "") +
+      speakBtnHtml(`${g.art} ${g.rest}`, "quiz-speak");
     ans.classList.add("show");
+    bindSpeakBtns(ans);
     const nextBtn = document.createElement("button");
     nextBtn.type = "button";
     nextBtn.className = "conj-btn genus-next";
@@ -1745,7 +1751,6 @@ function renderGenus(){
         if(right){ genusOk++; bumpStreak(); }
         else srsAnswer(e.id, false);   // genere sbagliato → la parola finisce nel ripasso
         genusAnswers[genusIdx] = b.dataset.a;
-        if(canSpeak) speak(e.de);
         genusLock = false;
         renderGenus();   // ri-renderizza in stato "risposto": soluzione + Avanti/Indietro
       });
@@ -1853,15 +1858,18 @@ function renderConjQuiz(){
     if(cqAnswered) return;
     cqAnswered = true;
     bumpStreak();
+    /* Niente audio automatico: il pulsante legge la forma completa
+       (pronome + verbo) e si può premere quante volte serve. */
+    const spk = speakBtnHtml(`${q.person} ${q.answer}`, "quiz-speak");
     if(right){
       cqOk++;
-      fb.innerHTML = `<span class="cq-right">${ic("check","ic-sm")}${s.cqRight}</span> <b>${q.person} ${q.answer}</b>`;
+      fb.innerHTML = `<span class="cq-right">${ic("check","ic-sm")}${s.cqRight}</span> <b>${q.person} ${q.answer}</b>${spk}`;
     } else {
       srsAnswer(q.e.id, false);   // la forma sbagliata finisce nel ripasso di oggi
-      fb.innerHTML = `<span class="cq-wrong">${s.cqWrongIs}</span> <b>${q.person} ${q.answer}</b>`;
+      fb.innerHTML = `<span class="cq-wrong">${s.cqWrongIs}</span> <b>${q.person} ${q.answer}</b>${spk}`;
     }
     fb.classList.add("show", right ? "ok" : "ko");
-    if(canSpeak) speak(q.answer);
+    bindSpeakBtns(fb);
     input.disabled = true;
     skipBtn.hidden = true;
     checkBtn.textContent = s.cqNext;
@@ -1997,8 +2005,11 @@ function renderWw(){
       o.disabled = true;
     });
     const ans = document.getElementById("wwAnswer");
-    ans.innerHTML = `<b>${it.q.replace("___", it.a)}</b><br><span class="ww-why">${it.why[lang === "en" ? "en" : "it"]}</span>`;
+    /* Il pulsante legge la frase completata, senza partire da solo. */
+    ans.innerHTML = `<b>${it.q.replace("___", it.a)}</b>${speakBtnHtml(it.q.replace("___", it.a), "quiz-speak")}` +
+      `<br><span class="ww-why">${it.why[lang === "en" ? "en" : "it"]}</span>`;
     ans.classList.add("show");
+    bindSpeakBtns(ans);
     const nextBtn = document.createElement("button");
     nextBtn.type = "button";
     nextBtn.className = "conj-btn genus-next";
@@ -2017,7 +2028,6 @@ function renderWw(){
           if(g) srsAnswer(g.id, false);   // errore → la voce Appendice va in ripasso
         }
         wwAnswers[wwIdx] = b.dataset.a;
-        if(canSpeak) speak(it.q.replace("___", it.a));
         wwLock = false;
         renderWw();   // ri-renderizza in stato "risposto": soluzione + perché + Avanti
       });

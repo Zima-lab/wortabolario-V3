@@ -579,6 +579,21 @@
   .speak-btn:active { transform: scale(1.2); }
   .flash-speak { font-size: var(--fs-2xl); opacity: .8; }
 
+  /* Pulsante audio dentro i quiz: nei quiz la pronuncia NON parte più da sola,
+     quindi qui l'icona deve leggersi come un comando, non come una decorazione.
+     Cerchietto con bordo + target 44px (senza ::after, che qui non basterebbe). */
+  .quiz-speak {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; min-width: 44px; padding: 0;
+    margin-left: var(--sp-15); vertical-align: middle;
+    border: 1.5px solid var(--border); border-radius: 999px;
+    background: var(--card); color: var(--accent); opacity: 1;
+  }
+  .quiz-speak::after { content: none; }   /* il bottone è già 44px */
+  .quiz-speak .ic { width: 19px; height: 19px; }
+  .quiz-speak:hover { border-color: var(--accent); }
+  .quiz-speak:active { transform: scale(1.08); }
+
   /* Livello SRS sul retro della flashcard */
   .srs-lv { font-size: var(--fs-2xs); letter-spacing: 3px; color: var(--accent); margin-top: 4px; }
 
@@ -602,7 +617,7 @@
     font-size: clamp(1.625rem, 7vw, 2.375rem); font-weight: 700; color: var(--navy-dark); overflow-wrap: anywhere;
   }
   .genus-hint { font-size: var(--fs-xs); color: var(--muted); font-style: italic; }
-  .genus-answer { min-height: 40px; font-size: var(--fs-base); color: var(--text); opacity: 0; transition: opacity .2s; }
+  .genus-answer { min-height: 48px; font-size: var(--fs-base); color: var(--text); opacity: 0; transition: opacity .2s; }
   .genus-answer.show { opacity: 1; }
   .genus-answer .genus { font-size: var(--fs-sm); }
   .genus-pl { color: var(--muted); font-size: var(--fs-sm); }
@@ -718,7 +733,9 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
 }
 .cq-input:focus { outline: none; border-color: var(--navy); }
 .cq-input:disabled { opacity: .7; }
-.cq-feedback { min-height: 24px; font-size: var(--fs-base); visibility: hidden; }
+/* min-height 48px: lo spazio del pulsante audio è riservato fin dall'inizio,
+   così alla risposta il blocco non "salta" spingendo giù i bottoni sotto. */
+.cq-feedback { min-height: 48px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; font-size: var(--fs-base); visibility: hidden; }
 .cq-feedback.show { visibility: visible; }
 .cq-feedback.ok .cq-right { color: var(--accent); font-weight: 700; }
 .cq-feedback.ko .cq-wrong { color: var(--amber); font-weight: 700; }

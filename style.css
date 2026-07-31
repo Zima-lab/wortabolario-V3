@@ -597,8 +597,14 @@
   .quiz-speak:hover { border-color: var(--accent); }
   .quiz-speak:active { transform: scale(1.08); }
 
-  /* Livello SRS sul retro della flashcard */
-  .srs-lv { font-size: var(--fs-2xs); letter-spacing: 3px; color: var(--accent); margin-top: 4px; }
+  /* Stato del ripasso sul retro della flashcard.
+     Era una fila di 5 pallini ●○○○○ (letter-spacing 3px): sembrava
+     l'indicatore di un carosello, quindi ora è una frase in chiaro. */
+  .srs-lv {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 10px;
+    font-size: var(--fs-2xs); color: var(--muted);
+  }
+  .srs-lv .ic { stroke-width: 1.9; opacity: .8; }
 
   /* Link alla scheda del Bignami */
   .bignami-link {

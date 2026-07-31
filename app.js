@@ -372,7 +372,12 @@ const UI_STRINGS = {
     flashSrcFav: "solo preferiti", flashSrcAll: "tutte le voci",
     dueBtn: (n) => `Da ripassare oggi (${n})`,
     dueAllDone: "Nessuna parola in scadenza oggi — ottimo!",
-    srsLevel: "livello",
+    /* Sostituisce i 5 pallini ●○○○○ sul retro della flashcard: sembravano
+       l'indicatore di un carosello e il loro senso non era leggibile. */
+    srsInfo: (lv, giorni) => `Livello ${lv} di 5 · ` + (
+      giorni <= 0 ? "da ripassare oggi"
+      : giorni === 1 ? "la rivedrai domani"
+      : `la rivedrai tra ${giorni} giorni`),
     speakAria: "Ascolta la pronuncia",
     genusBtn: "der · die · das",
     genusTitle: "Quiz: der, die o das?",
@@ -441,7 +446,10 @@ const UI_STRINGS = {
     flashSrcFav: "favourites only", flashSrcAll: "all entries",
     dueBtn: (n) => `Due today (${n})`,
     dueAllDone: "No words due today — great job!",
-    srsLevel: "level",
+    srsInfo: (lv, days) => `Level ${lv} of 5 · ` + (
+      days <= 0 ? "due for review today"
+      : days === 1 ? "you'll see it again tomorrow"
+      : `you'll see it again in ${days} days`),
     speakAria: "Hear the pronunciation",
     genusBtn: "der · die · das",
     genusTitle: "Quiz: der, die or das?",
@@ -1578,8 +1586,13 @@ function renderFlash(){
   // direzione: cosa mostra il fronte e cosa il retro
   const trLabel = lang === "en" ? "EN" : "IT";
   const spk = speakBtnHtml(e.de, "flash-speak");
-  const lv = (srsData[e.id] && srsData[e.id].lv) || 0;
-  const lvHtml = lv > 0 ? `<span class="srs-lv" title="${s.srsLevel} ${lv}/5">${"●".repeat(lv)}${"○".repeat(5 - lv)}</span>` : "";
+  /* Stato del ripasso a intervalli, in chiaro. Solo per le parole già
+     incontrate: su una parola nuova non c'è ancora niente da dire. */
+  const srs = srsData[e.id];
+  const lv = (srs && srs.lv) || 0;
+  const lvHtml = lv > 0
+    ? `<div class="srs-lv">${ic("clock", "ic-sm")}${s.srsInfo(lv, (srs.due || 0) - todayIdx())}</div>`
+    : "";
   const front = flashDir === "deit"
     ? `<div class="flash-word">${deHtml}</div>${spk}`
     : `<div class="flash-word flash-word-tr">${t.it}</div>`;

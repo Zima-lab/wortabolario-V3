@@ -624,7 +624,13 @@
   .genus-word {
     font-family: 'Poltawski Nowy', 'Iowan Old Style', Palatino, Georgia, serif;
     font-size: clamp(1.625rem, 7vw, 2.375rem); font-weight: 700; color: var(--navy-dark); overflow-wrap: anywhere;
+    /* Il pulsante audio si affianca alla parola dopo la risposta: flex con
+       wrap così sulle parole lunghe va a capo invece di uscire dalla card. */
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: var(--sp-25);
   }
+  /* Nella parola grande l'icona è un filo più grande, per stare in proporzione */
+  .genus-word .quiz-speak .ic { width: 21px; height: 21px; }
   .genus-hint { font-size: var(--fs-xs); color: var(--muted); font-style: italic; }
   .genus-answer { min-height: 48px; font-size: var(--fs-base); color: var(--text); opacity: 0; transition: opacity .2s; }
   .genus-answer.show { opacity: 1; }

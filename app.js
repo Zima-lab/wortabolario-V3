@@ -1719,7 +1719,7 @@ function renderGenus(){
   body.innerHTML = `
     <div class="flash-progress"><div class="flash-progress-fill" style="width:${(genusIdx / genusDeck.length) * 100}%"></div></div>
     <div class="genus-question">
-      <div class="genus-word">${g.rest}</div>
+      <div class="genus-word" id="genusWord">${g.rest}</div>
       <div class="genus-hint">${s.genusPrompt}</div>
       <div class="genus-answer" id="genusAnswer"></div>
     </div>
@@ -1741,14 +1741,16 @@ function renderGenus(){
       o.disabled = true;
     });
     const ans = document.getElementById("genusAnswer");
-    /* La pronuncia NON parte da sola: il pulsante la fa sentire quando vuoi,
-       e soprattutto permette di RIPETERLA. Legge articolo + sostantivo insieme,
-       che è il punto di questo esercizio. */
     ans.innerHTML = `<span class="genus genus-${g.art}">${g.art}</span> <b>${g.rest}</b> — ${t.it}` +
-      (plural ? `<span class="genus-pl"> · ${s.genusPlural}: ${plural}</span>` : "") +
-      speakBtnHtml(`${g.art} ${g.rest}`, "quiz-speak");
+      (plural ? `<span class="genus-pl"> · ${s.genusPlural}: ${plural}</span>` : "");
     ans.classList.add("show");
-    bindSpeakBtns(ans);
+    /* Il pulsante audio sta accanto alla PAROLA GRANDE, non alla riga della
+       soluzione. Compare solo ora che hai risposto: prima leggerebbe
+       "der Bereich" e ti regalerebbe l'articolo. La pronuncia non parte mai
+       da sola ed è ripetibile quante volte vuoi. */
+    const word = document.getElementById("genusWord");
+    word.insertAdjacentHTML("beforeend", speakBtnHtml(`${g.art} ${g.rest}`, "quiz-speak"));
+    bindSpeakBtns(word);
     const nextBtn = document.createElement("button");
     nextBtn.type = "button";
     nextBtn.className = "conj-btn genus-next";

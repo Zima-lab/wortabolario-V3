@@ -812,7 +812,15 @@ const GRAMMATICA = [
     note:"Se un tedesco ti chiede Was studierst du? sta chiedendo il tuo corso di laurea, non cosa stai studiando adesso.",
     enNote:"If a German asks Was studierst du? they mean your university degree, not what you are studying right now.",
     ex:[["Ich lerne seit zwei Jahren Deutsch.","Studio tedesco da due anni."],["Sie ist zum Bahnhof gerannt.","È corsa alla stazione."]],
-    enEx:[["Ich lerne seit zwei Jahren Deutsch.","I've been learning German for two years."],["Sie ist zum Bahnhof gerannt.","She ran to the station."]]}
+    enEx:[["Ich lerne seit zwei Jahren Deutsch.","I've been learning German for two years."],["Sie ist zum Bahnhof gerannt.","She ran to the station."]]},
+
+  {de:"dürfen · können — le differenze", it:"permesso vs capacità", en:"permission vs ability", cat:"modali",
+    rows:[["können","capacità, abilità, possibilità concreta: Ich kann Deutsch sprechen. · Heute kann ich kommen. (sono libero)"],["dürfen","permesso, autorizzazione, regola: Ich darf heute früher gehen. · Hier darf man parken."],["nicht können","non ne sei capace: Ich kann nicht schwimmen. = non so nuotare"],["nicht dürfen","è VIETATO, non hai il permesso: Du darfst nicht rauchen."],["nicht müssen","non sei obbligato, ma non è un divieto: Du musst nicht kommen."],["Coniugazione","ich kann · du kannst · er/sie kann · wir können · ihr könnt · sie können — ich darf · du darfst · er/sie darf · wir dürfen · ihr dürft · sie dürfen"],["Passato","Präteritum: ich konnte / ich durfte · Perfekt: ich habe … können / ich habe … dürfen"]],
+    enRows:[["können","ability, skill, practical possibility: Ich kann Deutsch sprechen. · Heute kann ich kommen. (I am free)"],["dürfen","permission, authorisation, rule: Ich darf heute früher gehen. · Hier darf man parken."],["nicht können","you are not able to: Ich kann nicht schwimmen. = I can't swim"],["nicht dürfen","it is FORBIDDEN, you have no permission: Du darfst nicht rauchen."],["nicht müssen","you don't have to, but it is not a ban: Du musst nicht kommen."],["Conjugation","ich kann · du kannst · er/sie kann · wir können · ihr könnt · sie können — ich darf · du darfst · er/sie darf · wir dürfen · ihr dürft · sie dürfen"],["Past","Präteritum: ich konnte / ich durfte · Perfekt: ich habe … können / ich habe … dürfen"]],
+    note:"Il trucco: chiediti PERCHÉ non puoi. Se il divieto viene da una regola o da una persona che decide → dürfen; se dipende dalle tue capacità o dalle circostanze → können. Nel parlato Kann ich…? sostituisce spesso Darf ich…?, ma con estranei o in un testo formale è meglio dürfen.",
+    enNote:"The trick: ask yourself WHY you can't. If the ban comes from a rule or from someone in charge → dürfen; if it comes from your own ability or the circumstances → können. In speech Kann ich…? often replaces Darf ich…?, but with strangers or in formal writing dürfen is better.",
+    ex:[["Ich kann nicht kommen.","Non posso venire: sono malato, non ce la faccio."],["Ich darf nicht kommen.","Non posso venire: non me lo permettono."]],
+    enEx:[["Ich kann nicht kommen.","I can't come: I'm ill, I'm not able to."],["Ich darf nicht kommen.","I'm not allowed to come."]]}
 ];
 const FRASI = [
   ["Wie geht's?","Come va?","How are you?"],

@@ -406,6 +406,12 @@ const UI_STRINGS = {
     wwPerfect: "Perfetto! Fatti, ipotesi e futuro sono al loro posto.",
     wwGood: "Bene! Le sbagliate finiscono nel ripasso.",
     wwMeh: "Ricorda il trucco dell'Umlaut e riprova!",
+    exDk: "dürfen o können?", exDkDesc: "Permesso o capacità: scegli il modale",
+    dkTitle: "Quiz: dürfen o können?",
+    dkPrompt: "Completa la frase con il modale giusto",
+    dkPerfect: "Perfetto! Permesso e capacità non ti confondono più.",
+    dkGood: "Bene! Le sbagliate finiscono nel ripasso.",
+    dkMeh: "Chiediti sempre PERCHÉ non puoi, e riprova!",
     backupTitle: "I tuoi progressi", backupHint: "Esporta un backup di preferiti, parole imparate e ripassi, o importalo su un altro dispositivo.",
     backupExport: "Esporta", backupImport: "Importa",
     importOk: "Progressi importati! L'app ora si ricarica.",
@@ -478,6 +484,12 @@ const UI_STRINGS = {
     wwPerfect: "Perfect! Facts, hypotheses and future all in place.",
     wwGood: "Well done! Wrong ones go to review.",
     wwMeh: "Remember the umlaut trick and try again!",
+    exDk: "dürfen or können?", exDkDesc: "Permission or ability: pick the modal",
+    dkTitle: "Quiz: dürfen or können?",
+    dkPrompt: "Complete the sentence with the right modal",
+    dkPerfect: "Perfect! Permission and ability no longer trip you up.",
+    dkGood: "Well done! Wrong ones go to review.",
+    dkMeh: "Always ask yourself WHY you can't, then try again!",
     backupTitle: "Your progress", backupHint: "Export a backup of favourites, learned words and reviews, or import it on another device.",
     backupExport: "Export", backupImport: "Import",
     importOk: "Progress imported! The app will now reload.",
@@ -800,8 +812,9 @@ const BIGNAMI_PAGES = {
   "Wohin? / Wo? — i nomi geografici": 42,
   "an · in · auf · zu/bei — dove vai / dove sei": 43,
   "am Montag · in der Nacht — le preposizioni di tempo": 43,
-  /* Appendice (p. 44) */
-  "wurde · würde · werden — le differenze": 44
+  /* Appendice (pp. 44-45) */
+  "wurde · würde · werden — le differenze": 44,
+  "dürfen · können — le differenze": 45
 };
 
 /* ---------- SEZIONI DEL BIGNAMI (A-F) ----------
@@ -1306,7 +1319,8 @@ function renderExercises(){
     { id: "exFlash", ic: "cards",  name: s.exFlash, desc: s.exFlashDesc },
     { id: "exGenus", ic: "dice",   name: s.exGenus, desc: s.exGenusDesc },
     { id: "exConj",  ic: "pencil", name: s.exConj,  desc: s.exConjDesc },
-    { id: "exWww",   ic: "book",   name: s.exWww,   desc: s.exWwwDesc }
+    { id: "exWww",   ic: "book",   name: s.exWww,   desc: s.exWwwDesc },
+    { id: "exDk",    ic: "book",   name: s.exDk,    desc: s.exDkDesc }
   ];
   host.innerHTML = `
     <p class="eyebrow">${s.exTitle}</p>
@@ -1323,6 +1337,7 @@ function renderExercises(){
   document.getElementById("exGenus").addEventListener("click", () => openGenusQuiz());
   document.getElementById("exConj").addEventListener("click", () => openConjQuiz());
   document.getElementById("exWww").addEventListener("click", () => openWwQuiz());
+  document.getElementById("exDk").addEventListener("click", () => openDkQuiz());
 }
 
 function setTab(t){
@@ -2051,6 +2066,153 @@ function renderWw(){
   const backBtn = body.querySelector(".ww-back");
   if(backBtn) backBtn.addEventListener("click", () => { wwLock = false; wwIdx--; renderWw(); });
 }
+
+/* ---------- QUIZ dürfen · können (Appendice del Bignami, p. 45) ----------
+   Stesso pattern del quiz wurde/würde: frase col buco, tre opzioni coniugate
+   per la persona della frase, la soluzione spiega PERCHÉ (permesso o capacità).
+   Colori: kann- navy (capacità), darf- teal (permesso), muss- prugna (obbligo). */
+
+const DK_ITEMS = [
+  { q:"Ich ___ nicht schwimmen, ich habe es nie gelernt.", opts:["kann","darf","muss"], a:"kann",
+    why:{it:"capacità che manca (nie gelernt) → können", en:"missing ability (nie gelernt) → können"} },
+  { q:"Hier ___ man nicht rauchen, es ist verboten.", opts:["kann","darf","muss"], a:"darf",
+    why:{it:"divieto (verboten) → nicht dürfen", en:"ban (verboten) → nicht dürfen"} },
+  { q:"___ ich das Fenster öffnen?", opts:["Kann","Darf","Muss"], a:"Darf",
+    why:{it:"chiedo il permesso → dürfen", en:"asking permission → dürfen"} },
+  { q:"Sie ___ sehr gut Klavier spielen.", opts:["kann","darf","muss"], a:"kann",
+    why:{it:"abilità imparata (sehr gut) → können", en:"learned skill (sehr gut) → können"} },
+  { q:"Kinder ___ diesen Film nicht sehen: ab 18 Jahren.", opts:["können","dürfen","müssen"], a:"dürfen",
+    why:{it:"regola d'età → nicht dürfen (è vietato)", en:"age rule → nicht dürfen (forbidden)"} },
+  { q:"Er ___ nicht Auto fahren, er hat keinen Führerschein.", opts:["kann","darf","muss"], a:"darf",
+    why:{it:"manca la patente: è una regola → dürfen", en:"no licence: it is a rule → dürfen"} },
+  { q:"Ich ___ das Wort nicht lesen, es ist zu klein.", opts:["kann","darf","muss"], a:"kann",
+    why:{it:"le circostanze lo impediscono → können", en:"the circumstances prevent it → können"} },
+  { q:"Du ___ nicht kommen, wenn du keine Zeit hast.", opts:["kannst","darfst","musst"], a:"musst",
+    why:{it:"non è obbligatorio (≠ vietato) → nicht müssen", en:"not compulsory (not a ban) → nicht müssen"} },
+  { q:"___ du mir bitte helfen?", opts:["Kannst","Darfst","Musst"], a:"Kannst",
+    why:{it:"richiesta informale di aiuto → können", en:"informal request for help → können"} },
+  { q:"Heute ___ ich früher gehen, mein Chef hat es erlaubt.", opts:["kann","darf","muss"], a:"darf",
+    why:{it:"permesso concesso (erlaubt) → dürfen", en:"permission granted (erlaubt) → dürfen"} },
+  { q:"Nach der Operation ___ er zwei Wochen nicht arbeiten.", opts:["kann","darf","will"], a:"darf",
+    why:{it:"lo vieta il medico → dürfen", en:"the doctor forbids it → dürfen"} },
+  { q:"Wir ___ heute nicht kommen: das Auto ist kaputt.", opts:["können","dürfen","müssen"], a:"können",
+    why:{it:"impedimento pratico (Auto kaputt) → können", en:"practical obstacle (Auto kaputt) → können"} }
+];
+function dkOptClass(opt){
+  const o = opt.toLowerCase();
+  if(o.startsWith("darf")) return "ww-teal";
+  if(o.startsWith("muss") || o.startsWith("müss")) return "ww-plum";
+  return "ww-navy";
+}
+function dkEntry(){
+  return ENTRIES.find(e => e.type === "grammatica" && e.de.startsWith("dürfen · können"));
+}
+
+let dkDeck = [], dkIdx = 0, dkOk = 0, dkAnswers = [], dkLock = false;
+
+function openDkQuiz(){
+  const items = DK_ITEMS.slice();
+  for(let i = items.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  dkDeck = items.slice(0, 10);
+  dkIdx = 0; dkOk = 0; dkAnswers = []; dkLock = false;
+  document.getElementById("dkOverlay").classList.add("open");
+  document.body.classList.add("conj-lock");
+  renderDk();
+}
+function closeDkQuiz(){
+  document.getElementById("dkOverlay").classList.remove("open");
+  document.body.classList.remove("conj-lock");
+  updateView();
+}
+
+function renderDk(){
+  const s = UI_STRINGS[lang];
+  const body = document.getElementById("dkBody");
+  document.getElementById("dkTitle").textContent = s.dkTitle +
+    (dkDeck.length && dkIdx < dkDeck.length ? ` · ${dkIdx + 1} / ${dkDeck.length}` : "");
+
+  if(dkIdx >= dkDeck.length){
+    const msg = dkOk === dkDeck.length ? s.dkPerfect : (dkOk >= dkDeck.length * 0.7 ? s.dkGood : s.dkMeh);
+    body.innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-ic">${ic(dkOk === dkDeck.length ? "checkSeal" : "book")}</div>
+        <h3>${s.cqDoneTitle}</h3>
+        <p>${s.cqDoneMsg(dkOk, dkDeck.length)}<br>${msg}</p>
+        <div class="flash-actions">
+          <button type="button" class="conj-btn" id="dkRestart">${s.flashRestart}</button>
+          <button type="button" class="flash-secondary" id="dkEnd">${s.flashCloseBtn}</button>
+        </div>
+      </div>`;
+    document.getElementById("dkRestart").addEventListener("click", openDkQuiz);
+    document.getElementById("dkEnd").addEventListener("click", closeDkQuiz);
+    return;
+  }
+
+  const it = dkDeck[dkIdx];
+  const chosen = dkAnswers[dkIdx];
+
+  body.innerHTML = `
+    <div class="flash-progress"><div class="flash-progress-fill" style="width:${(dkIdx / dkDeck.length) * 100}%"></div></div>
+    <div class="genus-question">
+      <div class="ww-sentence">${it.q.replace("___", '<span class="ww-gap">___</span>')}</div>
+      <div class="genus-hint">${s.dkPrompt}</div>
+      <div class="genus-answer" id="dkAnswer"></div>
+    </div>
+    <div class="genus-btns" id="dkBtns">
+      ${it.opts.map(o => `<button type="button" class="genus-opt ww-opt ${dkOptClass(o)}" data-a="${o}">${o}</button>`).join("")}
+    </div>
+    <div class="genus-nav" id="dkNav">
+      ${dkIdx > 0 ? `<button type="button" class="flash-secondary dk-back">${s.quizBack}</button>` : ""}
+    </div>`;
+
+  if(chosen){
+    body.querySelectorAll(".ww-opt").forEach(o => {
+      if(o.dataset.a === it.a) o.classList.add("right");
+      else if(o.dataset.a === chosen) o.classList.add("wrong");
+      o.disabled = true;
+    });
+    const ans = document.getElementById("dkAnswer");
+    ans.innerHTML = `<b>${it.q.replace("___", it.a)}</b>${speakBtnHtml(it.q.replace("___", it.a), "quiz-speak")}` +
+      `<br><span class="ww-why">${it.why[lang === "en" ? "en" : "it"]}</span>`;
+    ans.classList.add("show");
+    bindSpeakBtns(ans);
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "conj-btn genus-next";
+    nextBtn.textContent = s.cqNext;
+    nextBtn.addEventListener("click", () => { dkIdx++; dkLock = false; renderDk(); });
+    document.getElementById("dkNav").appendChild(nextBtn);
+  } else {
+    body.querySelectorAll(".ww-opt").forEach(b => {
+      b.addEventListener("click", () => {
+        if(dkLock) return;
+        dkLock = true;
+        const right = b.dataset.a === it.a;
+        if(right){ dkOk++; bumpStreak(); }
+        else {
+          const g = dkEntry();
+          if(g) srsAnswer(g.id, false);
+        }
+        dkAnswers[dkIdx] = b.dataset.a;
+        dkLock = false;
+        renderDk();
+      });
+    });
+  }
+  const backBtn = body.querySelector(".dk-back");
+  if(backBtn) backBtn.addEventListener("click", () => { dkLock = false; dkIdx--; renderDk(); });
+}
+
+document.getElementById("dkClose").addEventListener("click", closeDkQuiz);
+document.getElementById("dkOverlay").addEventListener("click", (ev) => {
+  if(ev.target.id === "dkOverlay") closeDkQuiz();
+});
+document.addEventListener("keydown", (ev) => {
+  if(ev.key === "Escape" && document.getElementById("dkOverlay").classList.contains("open")) closeDkQuiz();
+});
 
 document.getElementById("wwClose").addEventListener("click", closeWwQuiz);
 document.getElementById("wwOverlay").addEventListener("click", (ev) => {

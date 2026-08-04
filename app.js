@@ -327,7 +327,7 @@ const CAT_EN = {
   "cibo":"food", "salute":"health", "corpo":"body", "arte":"art", "scuola":"school",
   "ausiliare":"auxiliary", "modale":"modal", "movimento":"motion", "percezione":"perception",
   "comunicazione":"communication", "quotidiano":"everyday", "mentale":"mental", "posizione":"position",
-  "riflessivo":"reflexive", "aggettivo":"adjective", "avverbio":"adverb",
+  "riflessivo":"reflexive", "aggettivo":"adjective", "avverbio":"adverb", "irregolare":"irregular verb",
   "casi":"cases", "pronomi":"pronouns", "reggenza":"verb government", "sintassi":"syntax",
   "verbi con preposizione":"verbs with prepositions",
   "tempi verbali":"verb tenses", "connettori":"connectors", "aggettivi":"adjectives",
@@ -812,9 +812,10 @@ const BIGNAMI_PAGES = {
   "Wohin? / Wo? — i nomi geografici": 42,
   "an · in · auf · zu/bei — dove vai / dove sei": 43,
   "am Montag · in der Nacht — le preposizioni di tempo": 43,
-  /* Appendice (pp. 44-45) */
+  /* Appendice (pp. 44-46) */
   "wurde · würde · werden — le differenze": 44,
-  "dürfen · können — le differenze": 45
+  "dürfen · können — le differenze": 45,
+  "Position 0 — und/aber/oder/denn/sondern": 46
 };
 
 /* ---------- SEZIONI DEL BIGNAMI (A-F) ----------

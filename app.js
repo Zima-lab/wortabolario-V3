@@ -412,6 +412,14 @@ const UI_STRINGS = {
     dkPerfect: "Perfetto! Permesso e capacità non ti confondono più.",
     dkGood: "Bene! Le sbagliate finiscono nel ripasso.",
     dkMeh: "Chiediti sempre PERCHÉ non puoi, e riprova!",
+    xpChipTitle: "I tuoi punti esperienza — tocca per vedere i traguardi",
+    xpTitle: "Traguardi",
+    xpToNext: (n) => `${n} XP al prossimo trofeo`,
+    xpTrophiesTitle: "Trofei vinti",
+    xpNoTrophies: "Nessun trofeo ancora — continua a esercitarti!",
+    xpMessagesTitle: "Messaggi ricevuti",
+    xpNoMessages: "Ancora nessun messaggio: ne arriva uno ogni 50 XP.",
+    xpTrophyToast: (n) => `Trofeo #${n} conquistato!`,
     backupTitle: "I tuoi progressi", backupHint: "Esporta un backup di preferiti, parole imparate e ripassi, o importalo su un altro dispositivo.",
     backupExport: "Esporta", backupImport: "Importa",
     importOk: "Progressi importati! L'app ora si ricarica.",
@@ -490,6 +498,14 @@ const UI_STRINGS = {
     dkPerfect: "Perfect! Permission and ability no longer trip you up.",
     dkGood: "Well done! Wrong ones go to review.",
     dkMeh: "Always ask yourself WHY you can't, then try again!",
+    xpChipTitle: "Your experience points — tap to see your achievements",
+    xpTitle: "Achievements",
+    xpToNext: (n) => `${n} XP to your next trophy`,
+    xpTrophiesTitle: "Trophies won",
+    xpNoTrophies: "No trophies yet — keep practising!",
+    xpMessagesTitle: "Messages received",
+    xpNoMessages: "No messages yet: one arrives every 50 XP.",
+    xpTrophyToast: (n) => `Trophy #${n} earned!`,
     backupTitle: "Your progress", backupHint: "Export a backup of favourites, learned words and reviews, or import it on another device.",
     backupExport: "Export", backupImport: "Import",
     importOk: "Progress imported! The app will now reload.",
@@ -524,6 +540,8 @@ function applyStaticStrings(){
   if(conjCloseBtn) conjCloseBtn.setAttribute("aria-label", s.conjClose);
   const cqCloseBtn = document.getElementById("cqClose");
   if(cqCloseBtn) cqCloseBtn.setAttribute("aria-label", s.conjClose);
+  const xpCloseBtn = document.getElementById("xpClose");
+  if(xpCloseBtn) xpCloseBtn.setAttribute("aria-label", s.conjClose);
   document.querySelectorAll(".tabbar .tab-lb").forEach(el => {
     if(s[el.dataset.tl]) el.textContent = s[el.dataset.tl];
   });
@@ -636,12 +654,133 @@ function streakCount(){
   return (streak.last === t || streak.last === t - 1) ? streak.count : 0;
 }
 
+/* ---------- XP, MESSAGGI DI INCORAGGIAMENTO, TROFEI ----------
+   Ricompensa per gli esercizi: ogni risposta CORRETTA vale XP secondo la
+   difficoltà (flashcard "La sapevo" = facile, quiz a scelta multipla =
+   medio, quiz di coniugazione a scrittura libera = difficile — è l'unico
+   che chiede produzione attiva, non riconoscimento). Ogni 50 XP accumulati
+   compare un messaggio di incoraggiamento; ogni 200 XP si vince un trofeo.
+   200 è anche un multiplo di 50: in quel caso vince il trofeo e il
+   messaggio non appare, per non doppiare la festa. Tutto persistente in
+   localStorage e incluso nel backup. */
+
+const XP_EASY = 1, XP_MED = 2, XP_HARD = 5;
+const XP_MSG_STEP = 50, XP_TROPHY_STEP = 200;
+
+let xpTotal = 0;
+try { xpTotal = parseInt(localStorage.getItem("wortabolario_xp") || "0", 10) || 0; } catch(e){}
+function saveXp(){ localStorage.setItem("wortabolario_xp", String(xpTotal)); }
+
+let xpTrophies = [];   // [{n, date}] — n = numero progressivo del trofeo (1, 2, 3…)
+try { xpTrophies = JSON.parse(localStorage.getItem("wortabolario_xp_trophies") || "[]"); } catch(e){}
+function saveXpTrophies(){ localStorage.setItem("wortabolario_xp_trophies", JSON.stringify(xpTrophies)); }
+
+let xpMessages = [];   // storico dei messaggi già mostrati, il più recente in testa
+try { xpMessages = JSON.parse(localStorage.getItem("wortabolario_xp_messages") || "[]"); } catch(e){}
+function saveXpMessages(){ localStorage.setItem("wortabolario_xp_messages", JSON.stringify(xpMessages)); }
+
+const ENCOURAGEMENTS = {
+  it: [
+    "Ogni parola imparata è un mattone in più. Weiter so!",
+    "Il tuo tedesco cresce un po' di più ogni giorno.",
+    "Bravo! La costanza batte il talento.",
+    "Un altro passo verso il B1. Continua così!",
+    "Der, die, das ti temono sempre un po' meno.",
+    "I verbi si arrendono uno alla volta. Avanti!",
+    "Stai costruendo un vocabolario solido. Gut gemacht!",
+    "Ogni errore corretto è una regola che non dimenticherai più.",
+    "La tua memoria tedesca si sta allenando bene.",
+    "Sempre più vicino a parlare senza pensarci due volte.",
+    "Ottimo ritmo di studio! Klasse!",
+    "Le coniugazioni iniziano a sembrarti familiari.",
+    "Un piccolo sforzo oggi, un grande progresso domani.",
+    "Il tedesco si impara così: un po' alla volta, ogni giorno."
+  ],
+  en: [
+    "Every word learned is one more brick. Weiter so!",
+    "Your German grows a little more every day.",
+    "Well done! Consistency beats talent.",
+    "One more step toward B1. Keep going!",
+    "Der, die, das fear you a little less now.",
+    "The verbs are surrendering one by one. Onward!",
+    "You're building a solid vocabulary. Gut gemacht!",
+    "Every corrected mistake is a rule you'll never forget.",
+    "Your German memory is training well.",
+    "Getting closer to speaking without a second thought.",
+    "Great study pace! Klasse!",
+    "The conjugations are starting to feel familiar.",
+    "A small effort today, a big step forward tomorrow.",
+    "This is how German is learned: a little at a time, every day."
+  ]
+};
+function pickEncouragement(){
+  const list = ENCOURAGEMENTS[lang] || ENCOURAGEMENTS.it;
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+/* Trofei ciclici su 4 livelli (colore diverso a ogni giro): bronzo → argento →
+   oro → platino → di nuovo bronzo (trofeo #5), e così via all'infinito. */
+const TROPHY_TIERS = ["bronzo","argento","oro","platino"];
+const TROPHY_TIER_EN = ["bronze","silver","gold","platinum"];
+function trophyTier(n){ return TROPHY_TIERS[(n - 1) % TROPHY_TIERS.length]; }
+function trophyTierLabel(n){
+  const idx = (n - 1) % TROPHY_TIERS.length;
+  return lang === "en" ? TROPHY_TIER_EN[idx] : TROPHY_TIERS[idx];
+}
+
+let xpToastTimer = null;
+function showXpToast(kind, payload){
+  const el = document.getElementById("xpToast");
+  if(!el) return;
+  el.className = "xp-toast " + (kind === "trophy" ? "xp-toast-trophy" : "xp-toast-msg");
+  el.innerHTML = kind === "trophy"
+    ? `${ic("trophy","ic-sm")}<span>${payload}</span>`
+    : `${ic("sun","ic-sm")}<span>${payload}</span>`;
+  el.hidden = false;
+  requestAnimationFrame(() => el.classList.add("show"));
+  clearTimeout(xpToastTimer);
+  xpToastTimer = setTimeout(hideXpToast, 4200);
+}
+function hideXpToast(){
+  const el = document.getElementById("xpToast");
+  if(!el) return;
+  el.classList.remove("show");
+  setTimeout(() => { el.hidden = true; }, 250);
+}
+
+/* Chiamata su ogni risposta CORRETTA di un esercizio (le sbagliate non danno
+   XP: è una ricompensa, non una partecipazione). Confronta le soglie prima e
+   dopo per capire se si è appena superato un multiplo di 50 o di 200. */
+function awardXp(points){
+  if(!points) return;
+  const s = UI_STRINGS[lang];
+  const prevMsgCount = Math.floor(xpTotal / XP_MSG_STEP);
+  const prevTrophyCount = Math.floor(xpTotal / XP_TROPHY_STEP);
+  xpTotal += points;
+  saveXp();
+  const newTrophyCount = Math.floor(xpTotal / XP_TROPHY_STEP);
+  const newMsgCount = Math.floor(xpTotal / XP_MSG_STEP);
+  if(newTrophyCount > prevTrophyCount){
+    for(let n = prevTrophyCount + 1; n <= newTrophyCount; n++){
+      xpTrophies.push({ n, date: new Date().toISOString() });
+    }
+    saveXpTrophies();
+    showXpToast("trophy", s.xpTrophyToast(newTrophyCount));
+  } else if(newMsgCount > prevMsgCount){
+    const text = pickEncouragement();
+    xpMessages = [{ text, date: new Date().toISOString() }, ...xpMessages].slice(0, 20);
+    saveXpMessages();
+    showXpToast("msg", text);
+  }
+}
+
 /* ---------- BACKUP: ESPORTA / IMPORTA PROGRESSI ----------
    Tutto lo stato vive in localStorage, che il browser può cancellare:
    il backup JSON protegge mesi di studio e permette il passaggio di dispositivo. */
 
 const BACKUP_KEYS = ["wortabolario_favs","wortabolario_learned","wortabolario_recent","wortabolario_srs",
-  "wortabolario_streak","wortabolario_lang","wortabolario_theme","wortabolario_sort","wortabolario_flashdir"];
+  "wortabolario_streak","wortabolario_lang","wortabolario_theme","wortabolario_sort","wortabolario_flashdir",
+  "wortabolario_xp","wortabolario_xp_trophies","wortabolario_xp_messages"];
 
 function exportProgress(){
   const data = { app: "wortabolario", version: 3, date: new Date().toISOString() };
@@ -699,6 +838,7 @@ const ICONS = {
   check:   '<path d="m5.4 12.4 4.4 4.4 8.8-9.6"/>',
   rotate:  '<path d="M3.8 12a8.2 8.2 0 1 0 2.6-6"/><path d="M3.4 4.4v4.2h4.2"/>',
   checkSeal: '<circle cx="12" cy="12" r="8.4"/><path d="m8.2 12.2 2.7 2.7 5-5.4"/>',
+  trophy:  '<path d="M7.5 4.2h9v3.9a4.5 4.5 0 0 1-9 0V4.2Z"/><path d="M7.5 5.5H4.8a2.6 2.6 0 0 0 2.6 3.4"/><path d="M16.5 5.5h2.7a2.6 2.6 0 0 1-2.6 3.4"/><path d="M12 12.6v2.9"/><path d="M9.2 19.5h5.6"/><path d="m10.3 16.3 3.4 0 .6 2.7h-4.6z"/>',
 };
 
 /** Restituisce l'SVG di un'icona. `cls` aggiunge classi CSS per la dimensione. */
@@ -1236,7 +1376,10 @@ function renderHome(){
     <div class="progress-card today-panel">
       <div class="progress-top">
         <span class="today-panel-title">${ic("sun","ic-sm")}${s.today}</span>
-        <span class="streak-chip" title="${s.streakTitle}">${ic("flame","ic-sm")}${streakCount() > 0 ? s.streakLabel(streakCount()) : s.streakStart}</span>
+        <div class="today-panel-chips">
+          <span class="streak-chip" title="${s.streakTitle}">${ic("flame","ic-sm")}${streakCount() > 0 ? s.streakLabel(streakCount()) : s.streakStart}</span>
+          <button type="button" class="xp-chip" id="xpChipBtn" title="${s.xpChipTitle}" aria-label="${s.xpChipTitle}">${ic("trophy","ic-sm")}${xpTotal} XP</button>
+        </div>
       </div>
       <div class="progress-track" role="progressbar" aria-valuenow="${nLearned}" aria-valuemin="0" aria-valuemax="${nTot}">
         <div class="progress-fill" style="width:${Math.max(pct, nLearned > 0 ? 2 : 0)}%"></div>
@@ -1296,6 +1439,8 @@ function renderHome(){
   if(db) db.addEventListener("click", () => openFlashcards("due"));
   const gb = document.getElementById("genusBtn");
   if(gb) gb.addEventListener("click", () => openGenusQuiz());
+  const xpChip = document.getElementById("xpChipBtn");
+  if(xpChip) xpChip.addEventListener("click", openXpPanel);
   const eb = document.getElementById("expBtn");
   if(eb) eb.addEventListener("click", exportProgress);
   const ib = document.getElementById("impBtn"), inFile = document.getElementById("impFile");
@@ -1664,6 +1809,7 @@ function renderFlash(){
   const nyes = document.getElementById("flashYes"), nno = document.getElementById("flashNo");
   if(nyes) nyes.addEventListener("click", () => {
     srsAnswer(e.id, true); flashOk++;      // SRS: sale di livello, la rivedrai più in là
+    awardXp(XP_EASY);   // flashcard = riconoscimento, il gradino più facile
     flashIdx++; flashFlipped = false; renderFlash();
   });
   if(nno) nno.addEventListener("click", () => {
@@ -1779,7 +1925,7 @@ function renderGenus(){
         if(genusLock) return;
         genusLock = true;
         const right = b.dataset.a === g.art;
-        if(right){ genusOk++; bumpStreak(); }
+        if(right){ genusOk++; bumpStreak(); awardXp(XP_MED); }
         else srsAnswer(e.id, false);   // genere sbagliato → la parola finisce nel ripasso
         genusAnswers[genusIdx] = b.dataset.a;
         genusLock = false;
@@ -1894,6 +2040,7 @@ function renderConjQuiz(){
     const spk = speakBtnHtml(`${q.person} ${q.answer}`, "quiz-speak");
     if(right){
       cqOk++;
+      awardXp(XP_HARD);   // produzione attiva scritta = il gradino più difficile
       fb.innerHTML = `<span class="cq-right">${ic("check","ic-sm")}${s.cqRight}</span> <b>${q.person} ${q.answer}</b>${spk}`;
     } else {
       srsAnswer(q.e.id, false);   // la forma sbagliata finisce nel ripasso di oggi
@@ -2053,7 +2200,7 @@ function renderWw(){
         if(wwLock) return;
         wwLock = true;
         const right = b.dataset.a === it.a;
-        if(right){ wwOk++; bumpStreak(); }
+        if(right){ wwOk++; bumpStreak(); awardXp(XP_MED); }
         else {
           const g = wwEntry();
           if(g) srsAnswer(g.id, false);   // errore → la voce Appendice va in ripasso
@@ -2192,7 +2339,7 @@ function renderDk(){
         if(dkLock) return;
         dkLock = true;
         const right = b.dataset.a === it.a;
-        if(right){ dkOk++; bumpStreak(); }
+        if(right){ dkOk++; bumpStreak(); awardXp(XP_MED); }
         else {
           const g = dkEntry();
           if(g) srsAnswer(g.id, false);
@@ -2221,6 +2368,67 @@ document.getElementById("wwOverlay").addEventListener("click", (ev) => {
 });
 document.addEventListener("keydown", (ev) => {
   if(ev.key === "Escape" && document.getElementById("wwOverlay").classList.contains("open")) closeWwQuiz();
+});
+
+/* ---------- PANNELLO "TRAGUARDI" (XP, trofei, messaggi) ---------- */
+
+function xpNextTrophyInfo(){
+  const remain = XP_TROPHY_STEP - (xpTotal % XP_TROPHY_STEP);
+  const pct = Math.round((xpTotal % XP_TROPHY_STEP) / XP_TROPHY_STEP * 100);
+  return { remain, pct };
+}
+
+function renderXpPanel(){
+  const s = UI_STRINGS[lang];
+  document.getElementById("xpTitle").textContent = s.xpTitle;
+  const body = document.getElementById("xpBody");
+  const { remain, pct } = xpNextTrophyInfo();
+
+  const trophiesHtml = xpTrophies.length
+    ? `<div class="xp-trophy-grid">` + xpTrophies.slice().reverse().map(t => `
+        <div class="xp-trophy xp-trophy-${trophyTier(t.n)}">
+          ${ic("trophy")}
+          <span class="xp-trophy-n">#${t.n}</span>
+          <span class="xp-trophy-tier">${trophyTierLabel(t.n)}</span>
+        </div>`).join("") + `</div>`
+    : `<div class="empty"><div class="empty-ic">${ic("trophy")}</div>${s.xpNoTrophies}</div>`;
+
+  const messagesHtml = xpMessages.length
+    ? `<ul class="xp-msg-list">` + xpMessages.slice(0, 8).map(m => `<li>${m.text}</li>`).join("") + `</ul>`
+    : `<p class="xp-msg-empty">${s.xpNoMessages}</p>`;
+
+  body.innerHTML = `
+    <div class="xp-total-card">
+      <div class="xp-total-n">${xpTotal}<span> XP</span></div>
+      <div class="progress-track" role="progressbar" aria-valuenow="${xpTotal % XP_TROPHY_STEP}" aria-valuemin="0" aria-valuemax="${XP_TROPHY_STEP}">
+        <div class="progress-fill xp-fill" style="width:${pct}%"></div>
+      </div>
+      <span class="progress-label">${s.xpToNext(remain)}</span>
+    </div>
+    <p class="eyebrow">${s.xpTrophiesTitle}</p>
+    ${trophiesHtml}
+    <p class="eyebrow">${s.xpMessagesTitle}</p>
+    ${messagesHtml}
+  `;
+}
+
+function openXpPanel(){
+  renderXpPanel();
+  document.getElementById("xpOverlay").classList.add("open");
+  document.body.classList.add("conj-lock");
+}
+function closeXpPanel(){
+  document.getElementById("xpOverlay").classList.remove("open");
+  document.body.classList.remove("conj-lock");
+}
+
+document.getElementById("xpClose").addEventListener("click", closeXpPanel);
+document.getElementById("xpOverlay").addEventListener("click", (ev) => {
+  if(ev.target.id === "xpOverlay") closeXpPanel();
+});
+document.getElementById("xpToast").addEventListener("click", hideXpToast);
+document.addEventListener("keydown", (ev) => {
+  if(ev.key === "Escape" && document.getElementById("xpOverlay").classList.contains("open")) closeXpPanel();
 });
 
 /* ---------- TORNA SU ---------- */

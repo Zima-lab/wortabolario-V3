@@ -80,6 +80,8 @@
 
 <button type="button" id="backTop" class="back-top" aria-label="Torna su" hidden data-icon="arrowUp"></button>
 
+<div id="xpToast" class="xp-toast" hidden></div>
+
 <nav class="tabbar" role="tablist" aria-label="Navigazione principale">
   <button type="button" class="tab active" data-tab="home" role="tab" aria-selected="true"><span class="tab-ic" data-icon="home"></span><span class="tab-lb" data-tl="tabHome">Casa</span></button>
   <button type="button" class="tab" data-tab="cerca" role="tab" aria-selected="false"><span class="tab-ic" data-icon="search"></span><span class="tab-lb" data-tl="tabSearch">Cerca</span></button>
@@ -139,6 +141,17 @@
       <button type="button" id="dkClose" class="conj-close" aria-label="Chiudi" data-icon="close"></button>
     </div>
     <div class="conj-sheet-body flash-body" id="dkBody"></div>
+  </div>
+</div>
+
+<div id="xpOverlay" class="conj-overlay" role="dialog" aria-modal="true" aria-labelledby="xpTitle">
+  <div class="conj-sheet flash-sheet">
+    <div class="conj-sheet-handle"></div>
+    <div class="conj-sheet-header">
+      <h2 id="xpTitle">Traguardi</h2>
+      <button type="button" id="xpClose" class="conj-close" aria-label="Chiudi" data-icon="close"></button>
+    </div>
+    <div class="conj-sheet-body" id="xpBody"></div>
   </div>
 </div>
 

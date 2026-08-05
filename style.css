@@ -906,3 +906,69 @@ button:focus-visible, select:focus-visible, a:focus-visible,
 input:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--navy); outline-offset: 2px;
 }
+
+/* ---------- XP, TRAGUARDI, TROFEI ----------
+   Ricompensa per gli esercizi: chip nella card "Oggi" + pannello dedicato
+   (stesso pattern a "bottom sheet" degli altri overlay) + toast per i
+   messaggi di incoraggiamento (ogni 50 XP) e i trofei (ogni 200 XP). */
+
+.today-panel-chips { display: flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; }
+.xp-chip {
+  font: inherit; font-size: var(--fs-xs); font-weight: 700; color: var(--plum);
+  background: var(--plum-light); border: none; border-radius: 999px; padding: 4px 10px;
+  white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; min-height: 26px;
+  transition: box-shadow .15s;
+}
+.xp-chip:hover { box-shadow: var(--e1); }
+.xp-chip .ic { margin-right: 5px; }
+
+/* Toast (messaggio/trofeo): sempre sopra qualunque overlay aperto, perché è
+   proprio dentro i quiz che si guadagnano gli XP. */
+.xp-toast {
+  position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); z-index: 150;
+  transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+  display: flex; align-items: center; gap: var(--sp-2);
+  background: var(--fill-active); color: #fff; border-radius: 999px;
+  padding: 12px 18px; font-size: var(--fs-sm); font-weight: 600; text-align: left;
+  box-shadow: var(--e3); max-width: min(90vw, 420px);
+  transition: transform .25s ease, opacity .25s ease; cursor: pointer;
+}
+.xp-toast.show { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+.xp-toast .ic { flex-shrink: 0; }
+.xp-toast-trophy { background: var(--amber); }
+
+/* Pannello "Traguardi" */
+.xp-total-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 18px 16px; margin-bottom: 20px; text-align: center; box-shadow: var(--e1);
+}
+.xp-total-n {
+  font-family: 'Poltawski Nowy', 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: var(--fs-hero); font-weight: 700; color: var(--navy-dark); line-height: 1;
+  margin-bottom: 12px;
+}
+.xp-total-n span { font-size: var(--fs-lg); color: var(--muted); font-weight: 600; margin-left: 4px; }
+.xp-total-card .progress-track { margin: 0 auto 10px; max-width: 320px; }
+.xp-total-card .progress-label { display: block; }
+.xp-fill { background: var(--plum); }
+
+.xp-trophy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: var(--sp-25); margin-bottom: 22px; }
+.xp-trophy {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: var(--card); border: 1.5px solid var(--border); border-radius: 14px;
+  padding: 14px 8px; box-shadow: var(--e1);
+}
+.xp-trophy .ic { width: 30px; height: 30px; }
+.xp-trophy-n { font-weight: 800; font-size: var(--fs-sm); color: var(--text); }
+.xp-trophy-tier { font-size: var(--fs-2xs); color: var(--muted); text-transform: capitalize; }
+.xp-trophy-bronzo { border-color: var(--amber); } .xp-trophy-bronzo .ic { color: var(--amber); }
+.xp-trophy-argento { border-color: var(--slate); } .xp-trophy-argento .ic { color: var(--slate); }
+.xp-trophy-oro { border-color: var(--navy); } .xp-trophy-oro .ic { color: var(--navy); }
+.xp-trophy-platino { border-color: var(--plum); } .xp-trophy-platino .ic { color: var(--plum); }
+
+.xp-msg-list { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.xp-msg-list li {
+  background: var(--surface-alt); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 12px; font-size: var(--fs-sm); color: var(--text);
+}
+.xp-msg-empty { color: var(--muted); font-size: var(--fs-sm); }
